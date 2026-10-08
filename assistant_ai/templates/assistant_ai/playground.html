@@ -1,10 +1,11 @@
+
 {% load static %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NEXORA AI | Playground</title>
+    <title>NEXORA AI | Memory</title>
     <link rel="stylesheet" href="{% static 'assistant_ai/playground.css' %}">
 </head>
 <body>
@@ -15,11 +16,7 @@
         </a>
 
         <p class="nav-label">WORKSPACE</p>
-
-        <a class="nav-link" href="{% url 'dashboard' %}">
-            ◈ Обзор
-        </a>
-
+        <a class="nav-link" href="{% url 'dashboard' %}">◈ Обзор</a>
         <a class="nav-link active" href="{% url 'ai_playground' %}">
             ✧ AI Playground
         </a>
@@ -40,9 +37,9 @@
             <div>
                 <span class="eyebrow">NEXORA / INTELLIGENCE</span>
                 <h1>AI Playground</h1>
-                <p>Протестируйте знания вашего AI-сотрудника.</p>
+                <p>Умный помощник с постоянной историей диалогов.</p>
             </div>
-            <span class="status">● Knowledge Engine</span>
+            <span class="status">● Memory Engine</span>
         </header>
 
         {% if business %}
@@ -64,41 +61,69 @@
             </form>
         </div>
 
-        <section class="chat">
-            <div class="chat-header">
-                <div class="bot-avatar">✦</div>
-                <div>
-                    <strong>NEXORA Assistant</strong>
-                    <small>Локальная база знаний · без Gemini</small>
+        <div class="memory-layout">
+            <section class="history-panel">
+                <div class="history-heading">
+                    <strong>История диалогов</strong>
+                    <button id="refresh-history" type="button" title="Обновить">
+                        ↻
+                    </button>
                 </div>
-                <button id="new-chat" type="button">+ Новый чат</button>
-            </div>
 
-            <div class="messages" id="messages">
-                <div class="message assistant">
-                    Привет! Я тестовый AI-сотрудник компании
-                    {{ business.name }}. Задайте мне вопрос об услугах
-                    или графике работы.
+                <input
+                    id="history-search"
+                    type="search"
+                    placeholder="Поиск по сообщениям..."
+                    maxlength="100"
+                    aria-label="Поиск по истории"
+                >
+
+                <div id="history-list" class="history-list">
+                    <p class="history-empty">Загрузка истории...</p>
                 </div>
-            </div>
+            </section>
 
-            <div class="composer">
-                <form id="chat-form">
-                    {% csrf_token %}
-                    <input type="hidden" name="business_id" value="{{ business.id }}">
-                    <textarea
-                        id="message-input"
-                        name="message"
-                        maxlength="2000"
-                        rows="1"
-                        placeholder="Напишите сообщение..."
-                        required
-                    ></textarea>
-                    <button type="submit" id="send-button">Отправить →</button>
-                </form>
-                <small>Ответы формируются из базы знаний. Gemini пока не используется.</small>
-            </div>
-        </section>
+            <section class="chat">
+                <div class="chat-header">
+                    <div class="bot-avatar">✦</div>
+                    <div>
+                        <strong>NEXORA Assistant</strong>
+                        <small>База знаний · История включена</small>
+                    </div>
+                    <button id="new-chat" type="button">+ Новый чат</button>
+                </div>
+
+                <div class="messages" id="messages">
+                    <div class="message assistant">
+                        Привет! Я NEXORA Assistant.
+                        Задайте вопрос о компании {{ business.name }}.
+                    </div>
+                </div>
+
+                <div class="composer">
+                    <form id="chat-form">
+                        {% csrf_token %}
+                        <input type="hidden" name="business_id" value="{{ business.id }}">
+                        <textarea
+                            id="message-input"
+                            name="message"
+                            maxlength="2000"
+                            rows="1"
+                            placeholder="Напишите сообщение..."
+                            required
+                        ></textarea>
+                        <button type="submit" id="send-button">
+                            Отправить →
+                        </button>
+                    </form>
+                    <small id="chat-status">
+                        Диалоги сохраняются в NEXORA Memory.
+                        Gemini пока не используется.
+                    </small>
+                </div>
+            </section>
+        </div>
+
         {% else %}
         <div class="empty">У вас пока нет доступных компаний.</div>
         {% endif %}
@@ -107,14 +132,35 @@
 
 {% if business %}
 <script>
+const businessId = "{{ business.id|escapejs }}";
 const form = document.getElementById("chat-form");
 const messages = document.getElementById("messages");
 const input = document.getElementById("message-input");
-const button = document.getElementById("send-button");
+const sendButton = document.getElementById("send-button");
 const newChatButton = document.getElementById("new-chat");
+const historyList = document.getElementById("history-list");
+const historySearch = document.getElementById("history-search");
+const refreshButton = document.getElementById("refresh-history");
+const chatStatus = document.getElementById("chat-status");
+
+const urls = {
+    send: "{% url 'ai_send_message' %}",
+    list: "{% url 'ai_conversations' %}",
+    detailBase: "/ai/conversations/"
+};
+
+const csrfToken = form.querySelector(
+    "[name=csrfmiddlewaretoken]"
+).value;
 
 let conversationId = null;
 let sending = false;
+let loading = false;
+let historyRequest = 0;
+
+function setStatus(text) {
+    chatStatus.textContent = text;
+}
 
 function addMessage(text, role) {
     const element = document.createElement("div");
@@ -125,16 +171,193 @@ function addMessage(text, role) {
     return element;
 }
 
-form.addEventListener("submit", async function(event) {
+function showWelcome() {
+    messages.replaceChildren();
+    addMessage(
+        "Новый диалог. Задайте вопрос о компании {{ business.name|escapejs }}.",
+        "assistant"
+    );
+}
+
+async function readJSON(response) {
+    const data = await response.json();
+
+    if (!response.ok) {
+        throw new Error(data.error || "Ошибка сервера");
+    }
+
+    return data;
+}
+
+async function loadHistory(autoOpen = false) {
+    const requestNumber = ++historyRequest;
+    const query = historySearch.value.trim();
+
+    try {
+        const params = new URLSearchParams({
+            business_id: businessId,
+            q: query
+        });
+
+        const response = await fetch(
+            urls.list + "?" + params.toString(),
+            { credentials: "same-origin" }
+        );
+
+        const data = await readJSON(response);
+
+        if (requestNumber !== historyRequest) return;
+
+        historyList.replaceChildren();
+
+        if (!data.conversations.length) {
+            const empty = document.createElement("p");
+            empty.className = "history-empty";
+            empty.textContent = query
+                ? "Совпадений не найдено"
+                : "История пока пуста";
+            historyList.appendChild(empty);
+            return;
+        }
+
+        for (const conversation of data.conversations) {
+            const row = document.createElement("div");
+            row.className = "history-row";
+
+            if (conversation.id === conversationId) {
+                row.classList.add("selected");
+            }
+
+            const openButton = document.createElement("button");
+            openButton.type = "button";
+            openButton.className = "history-open";
+            openButton.textContent = conversation.title;
+            openButton.title = conversation.title;
+
+            openButton.addEventListener("click", () => {
+                openConversation(conversation.id);
+            });
+
+            const deleteButton = document.createElement("button");
+            deleteButton.type = "button";
+            deleteButton.className = "history-delete";
+            deleteButton.textContent = "×";
+            deleteButton.title = "Удалить диалог";
+            deleteButton.setAttribute(
+                "aria-label", "Удалить диалог"
+            );
+
+            deleteButton.addEventListener("click", () => {
+                deleteConversation(conversation.id);
+            });
+
+            row.append(openButton, deleteButton);
+            historyList.appendChild(row);
+        }
+
+        if (autoOpen && !conversationId && !loading) {
+            await openConversation(data.conversations[0].id);
+        }
+
+    } catch (error) {
+        if (requestNumber !== historyRequest) return;
+        historyList.textContent = "Ошибка: " + error.message;
+    }
+}
+
+async function openConversation(id) {
+    if (sending || loading) return;
+
+    loading = true;
+    sendButton.disabled = true;
+    newChatButton.disabled = true;
+
+    try {
+        const params = new URLSearchParams({
+            business_id: businessId
+        });
+
+        const response = await fetch(
+            urls.detailBase + encodeURIComponent(id) +
+            "/?" + params.toString(),
+            { credentials: "same-origin" }
+        );
+
+        const data = await readJSON(response);
+
+        conversationId = data.id;
+        messages.replaceChildren();
+
+        for (const message of data.messages) {
+            const role = message.role === "customer"
+                ? "customer"
+                : "assistant";
+
+            addMessage(message.content, role);
+        }
+
+        setStatus("История восстановлена · NEXORA Memory");
+
+    } catch (error) {
+        setStatus("Ошибка загрузки: " + error.message);
+    } finally {
+        loading = false;
+        sendButton.disabled = false;
+        newChatButton.disabled = false;
+        loadHistory();
+    }
+}
+
+async function deleteConversation(id) {
+    if (sending || loading) return;
+
+    if (!confirm("Удалить этот диалог и все его сообщения?")) {
+        return;
+    }
+
+    loading = true;
+
+    try {
+        const data = new FormData();
+        data.set("business_id", businessId);
+
+        const response = await fetch(
+            urls.detailBase + encodeURIComponent(id) + "/delete/",
+            {
+                method: "POST",
+                body: data,
+                headers: { "X-CSRFToken": csrfToken },
+                credentials: "same-origin"
+            }
+        );
+
+        await readJSON(response);
+
+        if (conversationId === id) {
+            conversationId = null;
+            showWelcome();
+            setStatus("Диалог удалён");
+        }
+
+    } catch (error) {
+        setStatus("Ошибка удаления: " + error.message);
+    } finally {
+        loading = false;
+        loadHistory();
+    }
+}
+
+form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    if (sending) return;
+    if (sending || loading) return;
 
     const question = input.value.trim();
     if (!question) return;
 
     sending = true;
-    button.disabled = true;
+    sendButton.disabled = true;
+    newChatButton.disabled = true;
     input.value = "";
 
     addMessage(question, "customer");
@@ -148,46 +371,60 @@ form.addEventListener("submit", async function(event) {
     }
 
     try {
-        const response = await fetch("{% url 'ai_send_message' %}", {
+        const response = await fetch(urls.send, {
             method: "POST",
             body: data,
             credentials: "same-origin"
         });
 
-        const result = await response.json();
-
-        if (!response.ok) {
-            throw new Error(result.error || "Ошибка сервера");
-        }
+        const result = await readJSON(response);
 
         conversationId = result.conversation_id;
         pending.textContent = result.answer;
+
+        setStatus("Сообщение сохранено · " + result.source);
+        await loadHistory();
 
     } catch (error) {
         pending.textContent = "Ошибка: " + error.message;
         input.value = question;
     } finally {
         sending = false;
-        button.disabled = false;
+        sendButton.disabled = false;
+        newChatButton.disabled = false;
         input.focus();
     }
 });
 
-newChatButton.addEventListener("click", function() {
-    if (sending) return;
+newChatButton.addEventListener("click", () => {
+    if (sending || loading) return;
 
     conversationId = null;
-    messages.replaceChildren();
-    addMessage("Новый диалог создан. Задайте вопрос.", "assistant");
+    showWelcome();
+    setStatus("Новый диалог начнётся после первого сообщения");
+    loadHistory();
     input.focus();
 });
 
-input.addEventListener("keydown", function(event) {
+refreshButton.addEventListener("click", () => {
+    loadHistory();
+});
+
+let searchDelay;
+
+historySearch.addEventListener("input", () => {
+    clearTimeout(searchDelay);
+    searchDelay = setTimeout(() => loadHistory(), 300);
+});
+
+input.addEventListener("keydown", (event) => {
     if (event.key === "Enter" && !event.shiftKey) {
         event.preventDefault();
         form.requestSubmit();
     }
 });
+
+loadHistory(true);
 </script>
 {% endif %}
 </body>

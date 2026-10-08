@@ -351,3 +351,141 @@ textarea:focus {
         padding: 12px;
     }
 }
+
+
+/* NEXORA MEMORY */
+
+.memory-layout {
+    display: grid;
+    grid-template-columns: 280px minmax(0, 1fr);
+    gap: 18px;
+    min-height: 0;
+}
+
+.history-panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 18px;
+    height: min(650px, 70vh);
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.history-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+#refresh-history {
+    background: #242b3c;
+    color: #bda4ff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 12px;
+    cursor: pointer;
+}
+
+#history-search {
+    width: 100%;
+    background: #1b2030;
+    color: white;
+    border: 1px solid #353c51;
+    border-radius: 9px;
+    padding: 12px;
+    outline: none;
+    font: inherit;
+    font-size: 12px;
+    margin-bottom: 18px;
+}
+
+#history-search:focus {
+    border-color: var(--accent);
+}
+
+.history-list {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.history-row {
+    display: flex;
+    align-items: center;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    background: #1b2030;
+    overflow: hidden;
+}
+
+.history-row:hover {
+    border-color: #514277;
+}
+
+.history-row.selected {
+    border-color: var(--accent);
+    background: #291e45;
+}
+
+.history-open {
+    flex: 1;
+    min-width: 0;
+    padding: 14px 10px;
+    border: 0;
+    background: transparent;
+    color: #e5defc;
+    text-align: left;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+.history-delete {
+    background: transparent;
+    color: #8991a8;
+    border: 0;
+    padding: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.history-delete:hover {
+    color: #ff7474;
+}
+
+.history-empty {
+    color: var(--muted);
+    text-align: center;
+    font-size: 12px;
+    padding: 24px 8px;
+}
+
+@media (max-width: 1100px) {
+    .memory-layout {
+        grid-template-columns: 220px minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 850px) {
+    .memory-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .history-panel {
+        height: 230px;
+        min-height: 0;
+    }
+
+    .chat {
+        height: 60vh;
+    }
+}
