@@ -13,6 +13,8 @@ class Business(models.Model):
         blank=True
     )
 
+    public_chat_enabled = models.BooleanField(default=False, verbose_name="Публичный чат включён")
+
     description = models.TextField(blank=True)
 
     industry = models.CharField(

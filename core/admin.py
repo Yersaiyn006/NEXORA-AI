@@ -7,6 +7,7 @@ class BusinessAdmin(admin.ModelAdmin):
     list_display = (
         "name",
         "industry",
+        "public_chat_enabled",
         "phone",
         "created_at"
     )
