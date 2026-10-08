@@ -1,0 +1,176 @@
+
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+
+    <title>{{ business.name }} | NEXORA</title>
+
+    <link rel="stylesheet" href="{% static 'public_chat/chat.css' %}">
+</head>
+<body>
+
+<main class="shell">
+
+    <header class="top">
+        <div class="brand">
+            ✦ NEXORA <span>AI</span>
+        </div>
+        <div class="online">● Консультант</div>
+    </header>
+
+    <section class="hero">
+        <div class="avatar">✦</div>
+        <h1>{{ business.name }}</h1>
+        <p>
+            {{ business.description|default:'Добро пожаловать! Задайте вопрос или оставьте заявку.' }}
+        </p>
+    </section>
+
+    <section class="chat" aria-label="Переписка">
+
+        <div id="messages" class="messages" aria-live="polite">
+
+            {% if not history %}
+                <div class="bubble bot">
+                    Здравствуйте! Чем могу помочь?
+                    Можно узнать об услугах или оставить заявку на запись.
+                </div>
+            {% endif %}
+
+            {% for message in history %}
+                {% if message.role == 'customer' or message.role == 'assistant' %}
+                    <div class="bubble {% if message.role == 'customer' %}me{% else %}bot{% endif %}">
+                        {{ message.content }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+
+        </div>
+
+        <form
+            id="form"
+            method="post"
+            action="{% url 'public_chat_send' business.slug %}"
+        >
+            {% csrf_token %}
+
+            <label class="sr" for="question">
+                Сообщение
+            </label>
+
+            <input
+                id="question"
+                name="message"
+                maxlength="1000"
+                placeholder="Напишите сообщение..."
+                required
+                autocomplete="off"
+            >
+
+            <button
+                id="send"
+                type="submit"
+                aria-label="Отправить"
+            >
+                ➜
+            </button>
+        </form>
+
+        <div id="status" class="status" role="status">
+            Заявки подтверждаются сотрудником.
+            Не отправляйте лишние персональные данные.
+        </div>
+
+    </section>
+
+    <footer>
+        Работает на NEXORA AI · Ответы из базы знаний компании
+    </footer>
+
+</main>
+
+<script>
+const form = document.getElementById("form");
+const field = document.getElementById("question");
+const list = document.getElementById("messages");
+const status = document.getElementById("status");
+const btn = document.getElementById("send");
+
+function bubble(text, who) {
+    const element = document.createElement("div");
+
+    element.className = "bubble " + who;
+    element.textContent = text;
+
+    list.appendChild(element);
+    list.scrollTop = list.scrollHeight;
+
+    return element;
+}
+
+list.scrollTop = list.scrollHeight;
+
+form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    if (btn.disabled) {
+        return;
+    }
+
+    const question = field.value.trim();
+
+    if (!question || question.length > 1000) {
+        status.textContent = "Введите сообщение до 1000 символов.";
+        return;
+    }
+
+    btn.disabled = true;
+
+    // ВАЖНО: создаём данные ДО очистки поля.
+    const formData = new FormData(form);
+    formData.set("message", question);
+
+    field.value = "";
+
+    const userBubble = bubble(question, "me");
+    const pending = bubble("Отвечаю…", "bot");
+
+    try {
+        const response = await fetch(form.action, {
+            method: "POST",
+            body: formData,
+            credentials: "same-origin"
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(
+                data.error || "Ошибка сервера"
+            );
+        }
+
+        pending.textContent = data.answer;
+
+        status.textContent =
+            "Заявки требуют подтверждения сотрудником.";
+
+    } catch (error) {
+        pending.textContent =
+            "Ошибка: " + error.message;
+
+        field.value = question;
+
+    } finally {
+        btn.disabled = false;
+        field.focus();
+    }
+});
+</script>
+
+</body>
+</html>
