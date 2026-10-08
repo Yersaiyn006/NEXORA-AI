@@ -10,6 +10,7 @@ from django.views.decorators.http import require_GET, require_POST
 from core.models import Membership
 from .models import Conversation, Message
 from .services import find_answer
+from .lead_engine import respond_to_lead
 
 
 # Проверяем доступ пользователя к диалогам компании
@@ -249,11 +250,14 @@ def send_message(request):
         )
 
         # Ищем ответ в базе знаний
-        answer = find_answer(business, question)
-
-        if answer:
-            provider = "knowledge_base"
+        answer = respond_to_lead(conversation, question)
+        if answer is not None:
+            provider = "lead_engine"
         else:
+            answer = find_answer(business, question)
+            provider = "knowledge_base" if answer else "fallback"
+
+        if not answer:
             provider = "fallback"
             answer = (
                 "Пока у меня недостаточно информации, "

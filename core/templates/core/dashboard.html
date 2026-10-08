@@ -24,7 +24,7 @@
                 ◈ &nbsp; Обзор
             </a>
             <div class="nav-item disabled">☏ &nbsp; Диалоги <small>Скоро</small></div>
-            <div class="nav-item disabled">◎ &nbsp; Клиенты <small>Скоро</small></div>
+            <a class="nav-item" href="{% url 'leads' %}?business={{ business.id }}">◎ &nbsp; Заявки</a>
             <a href="{% url 'ai_playground' %}" class="nav-item">
                  ✧ &nbsp; AI-сотрудник
             </a>
@@ -103,7 +103,7 @@
             <div class="stat-card">
                 <span>Всего диалогов</span>
                 <h3>{{ total_conversations }}</h3>
-                <p>Клиентские обращения</p>
+                <p>Все каналы, включая тестовые</p>
             </div>
 
             <div class="stat-card">
@@ -121,7 +121,7 @@
             <div class="stat-card">
                 <span>Конверсия</span>
                 <h3>{{ conversion_rate }}%</h3>
-                <p>Показатель обращений</p>
+                <p>Заявки / диалоги, включая тестовые</p>
             </div>
         </div>
 
@@ -131,27 +131,38 @@
                     <h3>Активность</h3>
                     <span>Последние события</span>
                 </div>
+                {% if recent_leads %}
+                <div style="padding:18px;display:grid;gap:14px">
+                    {% for lead in recent_leads %}
+                    <div style="border-bottom:1px solid #293044;padding-bottom:12px">
+                        <strong>{{ lead.customer_name }}</strong> · {{ lead.service }}
+                        <p style="margin-top:7px;color:#a5acc7">{{ lead.get_status_display }} · {{ lead.created_at|date:"d.m.Y H:i" }}</p>
+                    </div>
+                    {% endfor %}
+                    <a href="{% url 'leads' %}?business={{ business.id }}" style="color:#a78bfa">Все заявки →</a>
+                </div>
+                {% else %}
                 <div class="empty-state">
                     <div class="empty-icon">▤</div>
-                    <h4>Пока нет активности</h4>
-                    <p>После подключения AI-сотрудника здесь появятся события.</p>
+                    <h4>Пока нет заявок</h4>
+                    <p>Новые заявки появятся после оформления в AI Playground.</p>
                 </div>
+                {% endif %}
             </div>
 
             <div class="panel">
                 <div class="panel-heading">
                     <h3>AI-сотрудник</h3>
-                    <span class="badge">Не настроен</span>
+                    <span class="badge">Локальный режим</span>
                 </div>
 
                 <div class="ai-box">
                     <div class="ai-avatar">✦</div>
-                    <h4>Ваш AI ждёт настройки</h4>
+                    <h4>AI Playground активен</h4>
                     <p>
-                        На следующем этапе мы создадим интеллектуального
-                        помощника для вашей компании.
+                        База знаний, история диалогов и сбор заявок уже доступны.
                     </p>
-                    <span class="coming-soon">Настройка скоро появится</span>
+                    <a class="coming-soon" href="{% url 'ai_playground' %}?business={{ business.id }}">Открыть AI Playground →</a>
                 </div>
             </div>
         </div>
