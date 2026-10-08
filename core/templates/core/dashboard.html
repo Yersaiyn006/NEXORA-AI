@@ -1,0 +1,172 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXORA AI | Dashboard</title>
+    <link rel="stylesheet" href="{% static 'core/dashboard.css' %}">
+</head>
+<body>
+
+<div class="app">
+
+    <aside class="sidebar">
+        <div class="logo">
+            <span class="logo-icon">✦</span>
+            NEXORA <span class="ai">AI</span>
+        </div>
+
+        <div class="nav-label">WORKSPACE</div>
+
+        <nav>
+            <a href="{% url 'dashboard' %}" class="nav-item active">
+                ◈ &nbsp; Обзор
+            </a>
+            <div class="nav-item disabled">☏ &nbsp; Диалоги <small>Скоро</small></div>
+            <div class="nav-item disabled">◎ &nbsp; Клиенты <small>Скоро</small></div>
+            <a href="{% url 'ai_playground' %}" class="nav-item">
+                 ✧ &nbsp; AI-сотрудник
+            </a>
+            <div class="nav-item disabled">▤ &nbsp; Аналитика <small>Скоро</small></div>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="user-avatar">
+                {{ request.user.username|first|upper }}
+            </div>
+            <div>
+                <strong>{{ request.user.username }}</strong>
+                <p>Workspace member</p>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main">
+
+        <header class="topbar">
+            <div>
+                <span class="breadcrumb">Workspace / Overview</span>
+                <h1>Панель управления</h1>
+                <p class="subtitle">
+                    Управляйте вашим бизнесом с помощью NEXORA AI.
+                </p>
+            </div>
+
+            <div class="top-actions">
+                <span class="status">
+                    <span class="status-dot"></span>
+                    Система работает
+                </span>
+            </div>
+        </header>
+
+        {% if business %}
+
+        <div class="business-selector">
+            <div>
+                <span class="small-label">АКТИВНАЯ КОМПАНИЯ</span>
+                <h2>{{ business.name }}</h2>
+                <p>{{ business.industry|default:"Категория не указана" }}</p>
+            </div>
+
+            <form method="get">
+                <select name="business" onchange="this.form.submit()">
+                    {% for membership in memberships %}
+                    <option value="{{ membership.business.id }}"
+                        {% if membership.business.id == business.id %}selected{% endif %}>
+                        {{ membership.business.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+
+        <div class="welcome-banner">
+            <div>
+                <span class="banner-tag">✦ NEXORA INTELLIGENCE</span>
+                <h2>Ваш бизнес. Новый уровень.</h2>
+                <p>
+                    Скоро здесь появится AI-сотрудник,
+                    который будет помогать вашим клиентам 24/7.
+                </p>
+            </div>
+            <div class="banner-symbol">✦</div>
+        </div>
+
+        <div class="section-heading">
+            <h2>Обзор показателей</h2>
+            <span>За всё время</span>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <span>Всего диалогов</span>
+                <h3>{{ total_conversations }}</h3>
+                <p>Клиентские обращения</p>
+            </div>
+
+            <div class="stat-card">
+                <span>Потенциальные клиенты</span>
+                <h3>{{ total_leads }}</h3>
+                <p>Заинтересованные пользователи</p>
+            </div>
+
+            <div class="stat-card">
+                <span>Ответы AI</span>
+                <h3>{{ ai_responses }}</h3>
+                <p>Автоматические ответы</p>
+            </div>
+
+            <div class="stat-card">
+                <span>Конверсия</span>
+                <h3>{{ conversion_rate }}%</h3>
+                <p>Показатель обращений</p>
+            </div>
+        </div>
+
+        <div class="bottom-grid">
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3>Активность</h3>
+                    <span>Последние события</span>
+                </div>
+                <div class="empty-state">
+                    <div class="empty-icon">▤</div>
+                    <h4>Пока нет активности</h4>
+                    <p>После подключения AI-сотрудника здесь появятся события.</p>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-heading">
+                    <h3>AI-сотрудник</h3>
+                    <span class="badge">Не настроен</span>
+                </div>
+
+                <div class="ai-box">
+                    <div class="ai-avatar">✦</div>
+                    <h4>Ваш AI ждёт настройки</h4>
+                    <p>
+                        На следующем этапе мы создадим интеллектуального
+                        помощника для вашей компании.
+                    </p>
+                    <span class="coming-soon">Настройка скоро появится</span>
+                </div>
+            </div>
+        </div>
+
+        {% else %}
+
+        <div class="empty-workspace">
+            <h2>Нет доступных компаний</h2>
+            <p>Попросите администратора добавить вас в компанию.</p>
+        </div>
+
+        {% endif %}
+
+    </main>
+</div>
+
+</body>
+</html>
