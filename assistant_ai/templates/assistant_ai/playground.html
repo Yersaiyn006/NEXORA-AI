@@ -1,0 +1,194 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NEXORA AI | Playground</title>
+    <link rel="stylesheet" href="{% static 'assistant_ai/playground.css' %}">
+</head>
+<body>
+<div class="app">
+    <aside class="sidebar">
+        <a href="{% url 'dashboard' %}" class="logo">
+            ✦ NEXORA <span>AI</span>
+        </a>
+
+        <p class="nav-label">WORKSPACE</p>
+
+        <a class="nav-link" href="{% url 'dashboard' %}">
+            ◈ Обзор
+        </a>
+
+        <a class="nav-link active" href="{% url 'ai_playground' %}">
+            ✧ AI Playground
+        </a>
+
+        <div class="sidebar-bottom">
+            <div class="avatar">
+                {{ request.user.username|first|upper }}
+            </div>
+            <div>
+                <strong>{{ request.user.username }}</strong>
+                <small>Workspace member</small>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main">
+        <header>
+            <div>
+                <span class="eyebrow">NEXORA / INTELLIGENCE</span>
+                <h1>AI Playground</h1>
+                <p>Протестируйте знания вашего AI-сотрудника.</p>
+            </div>
+            <span class="status">● Knowledge Engine</span>
+        </header>
+
+        {% if business %}
+        <div class="workspace">
+            <div>
+                <small>АКТИВНАЯ КОМПАНИЯ</small>
+                <h3>{{ business.name }}</h3>
+            </div>
+
+            <form method="get">
+                <select name="business" onchange="this.form.submit()">
+                    {% for membership in memberships %}
+                    <option value="{{ membership.business.id }}"
+                        {% if membership.business.id == business.id %}selected{% endif %}>
+                        {{ membership.business.name }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </form>
+        </div>
+
+        <section class="chat">
+            <div class="chat-header">
+                <div class="bot-avatar">✦</div>
+                <div>
+                    <strong>NEXORA Assistant</strong>
+                    <small>Локальная база знаний · без Gemini</small>
+                </div>
+                <button id="new-chat" type="button">+ Новый чат</button>
+            </div>
+
+            <div class="messages" id="messages">
+                <div class="message assistant">
+                    Привет! Я тестовый AI-сотрудник компании
+                    {{ business.name }}. Задайте мне вопрос об услугах
+                    или графике работы.
+                </div>
+            </div>
+
+            <div class="composer">
+                <form id="chat-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="business_id" value="{{ business.id }}">
+                    <textarea
+                        id="message-input"
+                        name="message"
+                        maxlength="2000"
+                        rows="1"
+                        placeholder="Напишите сообщение..."
+                        required
+                    ></textarea>
+                    <button type="submit" id="send-button">Отправить →</button>
+                </form>
+                <small>Ответы формируются из базы знаний. Gemini пока не используется.</small>
+            </div>
+        </section>
+        {% else %}
+        <div class="empty">У вас пока нет доступных компаний.</div>
+        {% endif %}
+    </main>
+</div>
+
+{% if business %}
+<script>
+const form = document.getElementById("chat-form");
+const messages = document.getElementById("messages");
+const input = document.getElementById("message-input");
+const button = document.getElementById("send-button");
+const newChatButton = document.getElementById("new-chat");
+
+let conversationId = null;
+let sending = false;
+
+function addMessage(text, role) {
+    const element = document.createElement("div");
+    element.className = "message " + role;
+    element.textContent = text;
+    messages.appendChild(element);
+    messages.scrollTop = messages.scrollHeight;
+    return element;
+}
+
+form.addEventListener("submit", async function(event) {
+    event.preventDefault();
+
+    if (sending) return;
+
+    const question = input.value.trim();
+    if (!question) return;
+
+    sending = true;
+    button.disabled = true;
+    input.value = "";
+
+    addMessage(question, "customer");
+    const pending = addMessage("Думаю...", "assistant");
+
+    const data = new FormData(form);
+    data.set("message", question);
+
+    if (conversationId) {
+        data.set("conversation_id", conversationId);
+    }
+
+    try {
+        const response = await fetch("{% url 'ai_send_message' %}", {
+            method: "POST",
+            body: data,
+            credentials: "same-origin"
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+            throw new Error(result.error || "Ошибка сервера");
+        }
+
+        conversationId = result.conversation_id;
+        pending.textContent = result.answer;
+
+    } catch (error) {
+        pending.textContent = "Ошибка: " + error.message;
+        input.value = question;
+    } finally {
+        sending = false;
+        button.disabled = false;
+        input.focus();
+    }
+});
+
+newChatButton.addEventListener("click", function() {
+    if (sending) return;
+
+    conversationId = null;
+    messages.replaceChildren();
+    addMessage("Новый диалог создан. Задайте вопрос.", "assistant");
+    input.focus();
+});
+
+input.addEventListener("keydown", function(event) {
+    if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        form.requestSubmit();
+    }
+});
+</script>
+{% endif %}
+</body>
+</html>
