@@ -28,7 +28,7 @@
             <a href="{% url 'ai_playground' %}" class="nav-item">
                  ✧ &nbsp; AI-сотрудник
             </a>
-            <div class="nav-item disabled">▤ &nbsp; Аналитика <small>Скоро</small></div>
+            <a href="{% url 'radar' %}{% if business %}?business={{ business.id }}{% endif %}" class="nav-item">▤ &nbsp; Sales Radar</a>
         </nav>
 
         <div class="sidebar-bottom">

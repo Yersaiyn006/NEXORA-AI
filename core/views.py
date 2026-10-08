@@ -56,3 +56,17 @@ def lead_status(request, lead_id):
         lead.save(update_fields=["status", "updated_at"])
         messages.success(request, "Статус заявки обновлён.")
     return redirect(f"/leads/?business={membership.business_id}")
+
+
+@login_required
+def radar(request):
+    from .sales_radar import sales_radar
+    memberships, membership = selected_membership(request)
+    business = membership.business if membership else None
+    include_playground = request.GET.get("demo") == "1"
+    data = sales_radar(business, include_playground) if business else None
+    return render(request, "core/radar.html", {
+        "memberships": memberships,
+        "business": business,
+        "radar": data,
+    })
