@@ -1,7 +1,9 @@
 from django.test import TestCase
 from django.urls import reverse
 from core.models import Business
-from assistant_ai.models import Conversation, Lead, Message, KnowledgeItem
+from assistant_ai.models import Conversation, Lead, KnowledgeItem
+from business_brain.models import CatalogItem
+from django.test import override_settings
 
 
 class PublicChatTests(TestCase):
@@ -54,3 +56,24 @@ class PublicChatTests(TestCase):
         for _ in range(15):
             self.assertEqual(self.client.post(self.send, {"message": "test"}).status_code, 200)
         self.assertEqual(self.client.post(self.send, {"message": "test"}).status_code, 429)
+
+
+@override_settings(NEXORA_AI_ENABLED=False)
+class PublicCatalogIntegrationTests(TestCase):
+    def setUp(self):
+        self.business = Business.objects.create(name="Tagam", slug="tagam-test", public_chat_enabled=True)
+        CatalogItem.objects.create(business=self.business, kind="dish", name="Завтрак", price="2500.00", currency="KZT")
+        self.send_url = reverse("public_chat_send", args=[self.business.slug])
+
+    def test_public_chat_reads_own_catalog_without_gemini(self):
+        response = self.client.post(self.send_url, {"message": "Какие блюда есть в вашем ресторане?"})
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.json()["source"], "catalog_fallback")
+        self.assertIn("Завтрак", response.json()["answer"])
+        self.assertIn("2500", response.json()["answer"])
+
+    def test_catalog_is_tenant_isolated(self):
+        other = Business.objects.create(name="Other", slug="other-test", public_chat_enabled=True)
+        CatalogItem.objects.create(business=other, kind="dish", name="Секретное блюдо", price="99999")
+        response = self.client.post(self.send_url, {"message": "Покажите меню"})
+        self.assertNotIn("Секретное блюдо", response.json()["answer"])

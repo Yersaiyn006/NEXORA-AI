@@ -1,0 +1,30 @@
+{
+  "transport": "local synthetic HTTP",
+  "actual_gemini_calls": 0,
+  "cases": [
+    {
+      "case": "ok",
+      "source": "gemini",
+      "tokens": 18,
+      "http_attempts": 1
+    },
+    {
+      "case": "429",
+      "source": "fallback",
+      "tokens": 0,
+      "http_attempts": 1
+    },
+    {
+      "case": "malformed",
+      "source": "fallback",
+      "tokens": 0,
+      "http_attempts": 1
+    },
+    {
+      "case": "timeout",
+      "source": "fallback",
+      "tokens": 0,
+      "http_attempts": 1
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+Creating test database for alias 'default'...
+FFFF
+======================================================================
+FAIL: test_provider_budget_covers_different_conversations_and_businesses (assistant_ai.test_recovery.ProviderBudgetTests.test_provider_budget_covers_different_conversations_and_businesses)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/root/.local/share/uv/python/cpython-3.13.16-linux-x86_64-gnu/lib/python3.13/unittest/mock.py", line 1897, in _inner
+    return f(*args, **kw)
+  File "/workspace/scratch/a661f07cb99b/verified/assistant_ai/test_recovery.py", line 66, in test_provider_budget_covers_different_conversations_and_businesses
+    self.assertNotEqual(respond(extra, "Здравствуйте").source, "gemini")
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'gemini' == 'gemini'
+
+======================================================================
+FAIL: test_creation_retry_does_not_consume_initial_request_as_customer_name (assistant_ai.test_recovery.RequestRecoveryTests.test_creation_retry_does_not_consume_initial_request_as_customer_name)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a661f07cb99b/verified/assistant_ai/test_recovery.py", line 34, in test_creation_retry_does_not_consume_initial_request_as_customer_name
+    self.assertEqual(self.chat.leads.get().customer_name, "")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'Хочу заказать пиццу' != ''
+- Хочу заказать пиццу
+
+
+======================================================================
+FAIL: test_finalization_retry_does_not_create_another_lead (assistant_ai.test_recovery.RequestRecoveryTests.test_finalization_retry_does_not_create_another_lead)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a661f07cb99b/verified/assistant_ai/test_recovery.py", line 49, in test_finalization_retry_does_not_create_another_lead
+    self.assertIn("создана", answer.content)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'создана' not found in 'Я консультант компании «Recovery shop». Пока информации недостаточно. Могу принять заявку или передать вопрос сотруднику.'
+
+======================================================================
+FAIL: test_name_retry_replays_the_same_next_question (assistant_ai.test_recovery.RequestRecoveryTests.test_name_retry_replays_the_same_next_question)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a661f07cb99b/verified/assistant_ai/test_recovery.py", line 41, in test_name_retry_replays_the_same_next_question
+    self.assertIn("Оставьте номер телефона", answer.content)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'Оставьте номер телефона' not found in 'Введите номер телефона Казахстана в формате +7XXXXXXXXXX.'
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.347s
+
+FAILED (failures=4)
+Destroying test database for alias 'default'...
+Found 4 test(s).
+System check identified no issues (0 silenced).

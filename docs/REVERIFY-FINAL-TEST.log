@@ -1,0 +1,11 @@
+Creating test database for alias 'default'...
+...........................ai_budget_exhausted business=1
+ai_budget_exhausted business=3
+.........................................................................................
+----------------------------------------------------------------------
+Ran 116 tests in 21.198s
+
+OK
+Destroying test database for alias 'default'...
+Found 116 test(s).
+System check identified no issues (0 silenced).

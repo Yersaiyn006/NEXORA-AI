@@ -5,8 +5,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>NEXORA AI | Memory</title>
+    <title>NEXORA | AI-консультант</title>
     <link rel="stylesheet" href="{% static 'assistant_ai/playground.css' %}">
+<link rel="stylesheet" href="{% static 'core/signature.css' %}">
+<link rel="stylesheet" href="{% static 'core/design-system.css' %}">
 </head>
 <body>
 <div class="app">
@@ -15,10 +17,10 @@
             ✦ NEXORA <span>AI</span>
         </a>
 
-        <p class="nav-label">WORKSPACE</p>
+        <p class="nav-label">НАВИГАЦИЯ</p>
         <a class="nav-link" href="{% url 'dashboard' %}">◈ Обзор</a>
         <a class="nav-link active" href="{% url 'ai_playground' %}">
-            ✧ AI Playground
+            ✧ AI-консультант
         </a>
 
         <div class="sidebar-bottom">
@@ -27,7 +29,7 @@
             </div>
             <div>
                 <strong>{{ request.user.username }}</strong>
-                <small>Workspace member</small>
+                <small>Сотрудник</small>
             </div>
         </div>
     </aside>
@@ -35,11 +37,11 @@
     <main class="main">
         <header>
             <div>
-                <span class="eyebrow">NEXORA / INTELLIGENCE</span>
-                <h1>AI Playground</h1>
+                <span class="eyebrow">NEXORA / КОНСУЛЬТАНТ</span>
+                <h1>AI-консультант</h1>
                 <p>Умный помощник с постоянной историей диалогов.</p>
             </div>
-            <span class="status">● Memory Engine</span>
+            <span class="status">● История сохраняется</span>
         </header>
 
         {% if business %}
@@ -347,6 +349,7 @@ async function deleteConversation(id) {
     }
 }
 
+let retryTurn = null;
 form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -365,6 +368,8 @@ form.addEventListener("submit", async (event) => {
 
     const data = new FormData(form);
     data.set("message", question);
+    if (!retryTurn || retryTurn.question !== question) retryTurn = {question, id: crypto.randomUUID()};
+    data.set("turn_id", retryTurn.id);
 
     if (conversationId) {
         data.set("conversation_id", conversationId);
@@ -380,9 +385,10 @@ form.addEventListener("submit", async (event) => {
         const result = await readJSON(response);
 
         conversationId = result.conversation_id;
+        retryTurn = null;
         pending.textContent = result.answer;
 
-        setStatus("Сообщение сохранено · " + result.source);
+        setStatus(result.source === "gemini" ? "Ответ AI сохранён" : result.source === "request_engine" ? "Данные заявки сохранены" : "AI недоступен · ответ по данным компании");
         await loadHistory();
 
     } catch (error) {
@@ -400,6 +406,7 @@ newChatButton.addEventListener("click", () => {
     if (sending || loading) return;
 
     conversationId = null;
+    retryTurn = null;
     showWelcome();
     setStatus("Новый диалог начнётся после первого сообщения");
     loadHistory();
@@ -427,5 +434,5 @@ input.addEventListener("keydown", (event) => {
 loadHistory(true);
 </script>
 {% endif %}
-</body>
+{% if request.user.is_authenticated %}<form class="nx-logout" method="post" action="{% url 'logout' %}">{% csrf_token %}<button type="submit">Выйти</button></form>{% endif %}</body>
 </html>

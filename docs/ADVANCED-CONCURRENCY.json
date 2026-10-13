@@ -1,0 +1,23 @@
+{
+  "invitation_requests": 4,
+  "invitation_statuses": [
+    410,
+    410,
+    410,
+    302
+  ],
+  "owner_memberships": 1,
+  "invitation_used": true,
+  "confirmation_requests": 4,
+  "confirmation_statuses": [
+    302,
+    302,
+    302,
+    302
+  ],
+  "confirmed_conflicting_leads": 1,
+  "parallel_chat_rejected": true,
+  "chat_messages": 2,
+  "first_answer": "synthetic answer",
+  "real_provider_calls": 0
+}

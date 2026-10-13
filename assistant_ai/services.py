@@ -1,6 +1,7 @@
 import re
 
 from .models import KnowledgeItem
+from .intent_engine import asks_services, similar_word
 
 
 STOP_WORDS = {
@@ -30,6 +31,16 @@ def tokenize(text):
 
 
 def find_answer(business, question):
+    if asks_services(question):
+        services = list(KnowledgeItem.objects.filter(
+            business=business, is_active=True, category="service"
+        ).order_by("pk")[:15])
+        if not services:
+            return None
+        return "Доступные услуги:\n" + "\n".join(
+            f"• {item.title}: {item.content[:350]}" for item in services
+        )
+
     question_tokens = tokenize(question)
 
     if not question_tokens:
@@ -48,8 +59,8 @@ def find_answer(business, question):
         title_tokens = tokenize(item.title)
         content_tokens = tokenize(item.content)
 
-        title_matches = len(question_tokens & title_tokens)
-        content_matches = len(question_tokens & content_tokens)
+        title_matches = sum(any(similar_word(q, t) for t in title_tokens) for q in question_tokens)
+        content_matches = sum(any(similar_word(q, t) for t in content_tokens) for q in question_tokens)
 
         score = title_matches * 4 + content_matches
 

@@ -1,9 +1,8 @@
-from django.test import TestCase, RequestFactory
+from django.test import TestCase
 from django.contrib.auth import get_user_model
 from core.models import Business, Membership
 from assistant_ai.models import Conversation, Message, Lead
 from .sales_radar import sales_radar
-from .views import radar
 
 class SalesRadarTests(TestCase):
     def setUp(self):

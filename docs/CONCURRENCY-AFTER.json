@@ -1,0 +1,16 @@
+{
+  "database": "SQLite file",
+  "workers": 8,
+  "requests": 80,
+  "statuses": {
+    "200": 80
+  },
+  "latency_ms": {
+    "median": 154.34,
+    "p95": 480.41
+  },
+  "conversations": 80,
+  "messages": 160,
+  "complete_pairs": 80,
+  "provider_calls": 0
+}

@@ -1,0 +1,33 @@
+Creating test database for alias 'default'...
+............F..........................F...........
+======================================================================
+FAIL: test_catalog_answer_without_ai (business_brain.test_brain.BrainTests.test_catalog_answer_without_ai)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a661f07cb99b/original-20261009/business_brain/test_brain.py", line 39, in test_catalog_answer_without_ai
+    self.assertEqual(answer.source, "catalog")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'catalog_fallback' != 'catalog'
+- catalog_fallback
++ catalog
+
+
+======================================================================
+FAIL: test_public_chat_reads_own_catalog_without_gemini (public_chat.tests.PublicCatalogIntegrationTests.test_public_chat_reads_own_catalog_without_gemini)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/scratch/a661f07cb99b/original-20261009/public_chat/tests.py", line 71, in test_public_chat_reads_own_catalog_without_gemini
+    self.assertEqual(response.json()["source"], "catalog")
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'catalog_fallback' != 'catalog'
+- catalog_fallback
++ catalog
+
+
+----------------------------------------------------------------------
+Ran 51 tests in 8.991s
+
+FAILED (failures=2)
+Destroying test database for alias 'default'...
+Found 51 test(s).
+System check identified no issues (0 silenced).

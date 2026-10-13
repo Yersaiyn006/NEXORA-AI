@@ -1,7 +1,8 @@
+from django.core.exceptions import ValidationError
 
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from django.db.models import Max
+from django.db.models import Max, OuterRef, Subquery
 from django.http import JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
@@ -9,8 +10,7 @@ from django.views.decorators.http import require_GET, require_POST
 
 from core.models import Membership
 from .models import Conversation, Message
-from .services import find_answer
-from .lead_engine import respond_to_lead
+from .universal_engine import respond
 
 
 # Проверяем доступ пользователя к диалогам компании
@@ -39,6 +39,9 @@ def playground(request):
 
     business_id = request.GET.get("business")
 
+    if business_id and (not business_id.isascii() or not business_id.isdigit() or len(business_id) > 18):
+        from django.http import Http404
+        raise Http404
     if business_id:
         membership = get_object_or_404(
             memberships,
@@ -65,7 +68,7 @@ def playground(request):
 def conversation_list(request):
     business_id = request.GET.get("business_id", "")
 
-    if not business_id.isdigit():
+    if not business_id.isascii() or not business_id.isdigit() or len(business_id) > 18:
         return JsonResponse(
             {"error": "Некорректная компания."},
             status=400
@@ -83,7 +86,8 @@ def conversation_list(request):
         request,
         business_id
     ).annotate(
-        last_message_at=Max("messages__created_at")
+        last_message_at=Max("messages__created_at"),
+        first_customer=Subquery(Message.objects.filter(conversation_id=OuterRef("pk"), role="customer").order_by("created_at", "pk").values("content")[:1]),
     )
 
     if search:
@@ -99,18 +103,7 @@ def conversation_list(request):
     results = []
 
     for conversation in conversations:
-        first_message = conversation.messages.filter(
-            role="customer"
-        ).order_by(
-            "created_at",
-            "id"
-        ).first()
-
-        title = (
-            first_message.content[:65]
-            if first_message
-            else "Новый диалог"
-        )
+        title = (conversation.first_customer or "Новый диалог")[:65]
 
         results.append({
             "id": str(conversation.id),
@@ -130,7 +123,7 @@ def conversation_list(request):
 def conversation_detail(request, conversation_id):
     business_id = request.GET.get("business_id", "")
 
-    if not business_id.isdigit():
+    if not business_id.isascii() or not business_id.isdigit() or len(business_id) > 18:
         return JsonResponse(
             {"error": "Некорректная компания."},
             status=400
@@ -168,7 +161,7 @@ def conversation_detail(request, conversation_id):
 def conversation_delete(request, conversation_id):
     business_id = request.POST.get("business_id", "")
 
-    if not business_id.isdigit():
+    if not business_id.isascii() or not business_id.isdigit() or len(business_id) > 18:
         return JsonResponse(
             {"error": "Некорректная компания."},
             status=400
@@ -179,7 +172,13 @@ def conversation_delete(request, conversation_id):
         id=conversation_id,
     )
 
-    conversation.delete()
+    from django.db.models import F
+    with transaction.atomic():
+        Conversation.objects.filter(pk=conversation.pk).update(status=F("status"))
+        conversation.refresh_from_db()
+        if conversation.processing_until and conversation.processing_until > timezone.now():
+            return JsonResponse({"error": "Дождитесь завершения ответа перед удалением диалога."}, status=409)
+        conversation.delete()
 
     return JsonResponse({
         "success": True
@@ -194,7 +193,7 @@ def send_message(request):
     question = request.POST.get("message", "").strip()
     conversation_id = request.POST.get("conversation_id")
 
-    if not business_id.isdigit():
+    if not business_id.isascii() or not business_id.isdigit() or len(business_id) > 18:
         return JsonResponse(
             {"error": "Некорректная компания."},
             status=400
@@ -220,69 +219,27 @@ def send_message(request):
 
     business = membership.business
 
-    with transaction.atomic():
-
-        # Продолжаем старый диалог или создаём новый
+    from .turns import TurnError, parse_turn_id, process_turn, completed_turn
+    from .rate_limits import consume
+    from django.db import OperationalError
+    conversation = None
+    try:
+        turn_id = parse_turn_id(request.POST.get("turn_id"))
         if conversation_id:
-            conversation = get_object_or_404(
-                user_conversations(request, business_id),
-                id=conversation_id,
-            )
-
-            if conversation.status != "active":
-                return JsonResponse(
-                    {"error": "Диалог закрыт."},
-                    status=400
-                )
-
+            try:
+                conversation = get_object_or_404(user_conversations(request, business_id), id=conversation_id)
+            except (ValueError, TypeError, ValidationError):
+                return JsonResponse({"error": "Некорректный диалог."}, status=400)
         else:
-            conversation = Conversation.objects.create(
-                business=business,
-                channel="web",
-                customer_name=f"Playground:{request.user.pk}",
+            conversation, _ = Conversation.objects.get_or_create(
+                business=business, channel="web", customer_name=f"Playground:{request.user.pk}", initial_turn_id=turn_id,
             )
-
-        # Сохраняем вопрос пользователя
-        Message.objects.create(
-            conversation=conversation,
-            role="customer",
-            content=question,
-        )
-
-        # Ищем ответ в базе знаний
-        answer = respond_to_lead(conversation, question)
-        if answer is not None:
-            provider = "lead_engine"
-        else:
-            answer = find_answer(business, question)
-            provider = "knowledge_base" if answer else "fallback"
-
-        if not answer:
-            provider = "fallback"
-            answer = (
-                "Пока у меня недостаточно информации, "
-                "чтобы точно ответить на этот вопрос. "
-                "Пожалуйста, обратитесь к сотруднику."
-            )
-
-        # Сохраняем ответ
-        Message.objects.create(
-            conversation=conversation,
-            role="assistant",
-            content=answer,
-            ai_provider=provider,
-            tokens_used=0,
-        )
-
-        # Обновляем время последней активности
-        Conversation.objects.filter(
-            pk=conversation.pk
-        ).update(
-            updated_at=timezone.now()
-        )
-
-    return JsonResponse({
-        "answer": answer,
-        "conversation_id": str(conversation.id),
-        "source": provider,
-    })
+        replay = completed_turn(conversation, question, turn_id)
+        if not replay and not consume([("playground", request.user.pk, 60, 30)]):
+            return JsonResponse({"error": "Слишком много сообщений. Попробуйте позже."}, status=429)
+        answer = replay or process_turn(conversation, question, turn_id, respond)
+        return JsonResponse({"answer": answer.content, "conversation_id": str(conversation.pk), "source": answer.ai_provider, "turn_id": str(turn_id)})
+    except TurnError as exc:
+        return JsonResponse({"error": exc.message, "conversation_id": str(conversation.pk) if conversation else None}, status=exc.status)
+    except OperationalError:
+        return JsonResponse({"error": "Сервис занят. Повторите отправку."}, status=503)

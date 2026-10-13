@@ -10,6 +10,7 @@
     <title>{{ business.name }} | NEXORA</title>
 
     <link rel="stylesheet" href="{% static 'public_chat/chat.css' %}">
+<link rel="stylesheet" href="{% static 'core/design-system.css' %}">
 </head>
 <body>
 
@@ -19,7 +20,7 @@
         <div class="brand">
             ✦ NEXORA <span>AI</span>
         </div>
-        <div class="online">● Консультант</div>
+        <div class="online">AI-консультант</div>
     </header>
 
     <section class="hero">
@@ -30,6 +31,11 @@
         </p>
     </section>
 
+    <div class="suggestions" aria-label="Начать разговор">
+        <button type="button" data-question="Покажите каталог компании">Каталог</button>
+        <button type="button" data-question="Какой у вас график работы?">График работы</button>
+        <button type="button" data-question="Хочу оставить заявку">Оставить заявку</button>
+    </div>
     <section class="chat" aria-label="Переписка">
 
         <div id="messages" class="messages" aria-live="polite">
@@ -37,15 +43,13 @@
             {% if not history %}
                 <div class="bubble bot">
                     Здравствуйте! Чем могу помочь?
-                    Можно узнать об услугах или оставить заявку на запись.
+                    Могу рассказать о компании, ответить на вопросы или помочь оставить заявку.
                 </div>
             {% endif %}
 
             {% for message in history %}
                 {% if message.role == 'customer' or message.role == 'assistant' %}
-                    <div class="bubble {% if message.role == 'customer' %}me{% else %}bot{% endif %}">
-                        {{ message.content }}
-                    </div>
+                    <div class="bubble {% if message.role == 'customer' %}me{% else %}bot{% endif %}">{{ message.content }}</div>
                 {% endif %}
             {% endfor %}
 
@@ -88,7 +92,8 @@
     </section>
 
     <footer>
-        Работает на NEXORA AI · Ответы из базы знаний компании
+        NEXORA AI · Ответы могут содержать ошибки. Условия заказа подтверждает сотрудник.
+        <a href="{% url 'public_chat_page' business.slug %}" target="_blank" rel="noopener">Открыть отдельно ↗</a>
     </footer>
 
 </main>
@@ -99,78 +104,62 @@ const field = document.getElementById("question");
 const list = document.getElementById("messages");
 const status = document.getElementById("status");
 const btn = document.getElementById("send");
-
+let retry = null;
 function bubble(text, who) {
     const element = document.createElement("div");
-
     element.className = "bubble " + who;
     element.textContent = text;
-
     list.appendChild(element);
     list.scrollTop = list.scrollHeight;
-
     return element;
 }
-
 list.scrollTop = list.scrollHeight;
-
-form.addEventListener("submit", async (event) => {
+document.querySelectorAll("[data-question]").forEach(button => button.addEventListener("click", () => {
+    if (btn.disabled) return;
+    field.value = button.dataset.question;
+    form.requestSubmit();
+}));
+form.addEventListener("submit", async event => {
     event.preventDefault();
-
-    if (btn.disabled) {
-        return;
-    }
-
+    if (btn.disabled) return;
     const question = field.value.trim();
-
-    if (!question || question.length > 1000) {
-        status.textContent = "Введите сообщение до 1000 символов.";
-        return;
-    }
-
+    if (!question || question.length > 1000) return;
+    const turn = retry && retry.question === question ? retry : {question, id: crypto.randomUUID()};
+    retry = turn;
     btn.disabled = true;
-
-    // ВАЖНО: создаём данные ДО очистки поля.
-    const formData = new FormData(form);
-    formData.set("message", question);
-
+    list.setAttribute("aria-busy", "true");
+    const data = new FormData(form);
+    data.set("message", question);
+    data.set("turn_id", turn.id);
     field.value = "";
-
-    const userBubble = bubble(question, "me");
-    const pending = bubble("Отвечаю…", "bot");
-
+    if (!turn.userBubble) turn.userBubble = bubble(question, "me");
+    if (turn.pending) turn.pending.remove();
+    turn.pending = bubble("Отвечаю…", "bot");
+    status.textContent = "Консультант готовит ответ…";
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30000);
     try {
-        const response = await fetch(form.action, {
-            method: "POST",
-            body: formData,
-            credentials: "same-origin"
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            throw new Error(
-                data.error || "Ошибка сервера"
-            );
-        }
-
-        pending.textContent = data.answer;
-
-        status.textContent =
-            "Заявки требуют подтверждения сотрудником.";
-
+        const response = await fetch(form.action, {method: "POST", body: data, credentials: "same-origin", signal: controller.signal});
+        let result;
+        try { result = await response.json(); } catch { throw new Error("Сервис недоступен. Повторите отправку."); }
+        if (!response.ok) throw new Error(result.error || "Не удалось отправить сообщение.");
+        turn.pending.textContent = result.answer;
+        status.textContent = ["catalog_fallback", "knowledge_base", "fallback"].includes(result.source)
+            ? "AI сейчас недоступен. Ответ подготовлен по данным компании."
+            : "Заявки подтверждаются сотрудником.";
+        retry = null;
     } catch (error) {
-        pending.textContent =
-            "Ошибка: " + error.message;
-
+        turn.pending.textContent = error.name === "AbortError" ? "Ответ задерживается. Повторите отправку этого сообщения." : error.message;
+        turn.pending.classList.add("error-bubble");
         field.value = question;
-
+        status.textContent = "Сообщение можно отправить повторно.";
     } finally {
+        clearTimeout(timeout);
         btn.disabled = false;
+        list.setAttribute("aria-busy", "false");
         field.focus();
+        list.scrollTop = list.scrollHeight;
     }
 });
 </script>
-
-</body>
-</html>
+</body></html>

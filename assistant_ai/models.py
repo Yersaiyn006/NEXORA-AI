@@ -1,5 +1,4 @@
 from django.db import models
-from django.conf import settings
 from core.models import Business
 import uuid
 
@@ -83,6 +82,15 @@ class Conversation(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    initial_turn_id = models.UUIDField(null=True, blank=True)
+    public_session_key = models.CharField(max_length=64, null=True, blank=True)
+    processing_token = models.UUIDField(null=True, blank=True)
+    processing_until = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["business", "public_session_key"], name="unique_public_business_session"),
+                       models.UniqueConstraint(fields=["business", "customer_name", "initial_turn_id"], name="unique_playground_initial_turn")]
+
     def __str__(self):
         return f"{self.business.name} | {self.customer_name or self.id}"
 
@@ -114,6 +122,12 @@ class Message(models.Model):
     )
 
     tokens_used = models.PositiveIntegerField(default=0)
+    turn_id = models.UUIDField(null=True, blank=True)
+    # Server action receipt: survives an interrupted assistant-message write.
+    request_response = models.TextField(blank=True)
+
+    class Meta:
+        constraints = [models.UniqueConstraint(fields=["conversation", "role", "turn_id"], name="unique_conversation_role_turn")]
 
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -138,5 +152,17 @@ class Lead(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+    def clean(self):
+        from django.core.exceptions import ValidationError
+        if self.conversation_id and self.business_id and self.conversation.business_id != self.business_id:
+            raise ValidationError("Заявка и диалог должны принадлежать одной компании.")
+
     def __str__(self):
         return f"{self.business.name}: {self.customer_name or 'Новая заявка'} ({self.status})"
+
+
+class RateLimitBucket(models.Model):
+    """Shared fixed-window counters. Keys contain HMAC digests, not client IPs."""
+    key = models.CharField(max_length=120, unique=True)
+    count = models.PositiveIntegerField(default=0)
+    expires_at = models.DateTimeField(db_index=True)

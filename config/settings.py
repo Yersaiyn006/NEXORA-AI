@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     "core",
     "assistant_ai",
     "public_chat",
+    "business_center",
+    "business_brain",
 ]
 
 MIDDLEWARE = [
@@ -64,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'core.middleware.PrivatePagesMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -92,7 +95,8 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.getenv('NEXORA_DATABASE_PATH', str(BASE_DIR / 'db.sqlite3')),
+        'OPTIONS': {'timeout': 10, 'transaction_mode': 'IMMEDIATE'},
     }
 }
 
@@ -121,7 +125,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = "Asia/Qyzylorda"
 
 USE_I18N = True
 
@@ -133,6 +137,36 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
-LOGIN_URL = "/admin/login/"
+LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/admin/login/"
+LOGOUT_REDIRECT_URL = "/accounts/login/"
+
+# NEXORA: Gemini-first mode; configure the key and model in .env.
+NEXORA_AI_ENABLED = os.getenv("NEXORA_AI_ENABLED", "true").lower() in ("true", "1", "yes")
+NEXORA_AI_MODEL = os.getenv("NEXORA_AI_MODEL", "gemini-2.5-flash")
+
+# Keep the primary-key type used by the existing migrations.
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+NEXORA_AI_TIMEOUT_MS = max(1000, min(60000, int(os.getenv("NEXORA_AI_TIMEOUT_MS", "20000"))))
+NEXORA_CONTEXT_CHARS = max(12000, min(48000, int(os.getenv("NEXORA_CONTEXT_CHARS", "24000"))))
+NEXORA_PUBLIC_IP_PER_MINUTE = int(os.getenv("NEXORA_PUBLIC_IP_PER_MINUTE", "60"))
+NEXORA_PUBLIC_BUSINESS_PER_DAY = int(os.getenv("NEXORA_PUBLIC_BUSINESS_PER_DAY", "1000"))
+NEXORA_PUBLIC_SESSION_PER_MINUTE = 15
+NEXORA_CONVERSATION_MAX_TURNS = 100
+DATA_UPLOAD_MAX_MEMORY_SIZE = 65536
+
+# Explicit opt-in: DEBUG=False alone does not break local HTTP installations.
+NEXORA_PRODUCTION = os.getenv("NEXORA_PRODUCTION", "false").lower() == "true"
+if NEXORA_PRODUCTION:
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = 3600
+    SECURE_REFERRER_POLICY = "same-origin"
+
+TEST_RUNNER = "config.test_runner.OfflineTestRunner"
+
+NEXORA_PUBLIC_GLOBAL_PER_DAY = int(os.getenv("NEXORA_PUBLIC_GLOBAL_PER_DAY", "5000"))
+NEXORA_AI_BUSINESS_PER_DAY = max(0, int(os.getenv("NEXORA_AI_BUSINESS_PER_DAY", "1000")))
+NEXORA_AI_GLOBAL_PER_DAY = max(0, int(os.getenv("NEXORA_AI_GLOBAL_PER_DAY", "5000")))

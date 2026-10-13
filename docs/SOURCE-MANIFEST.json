@@ -1,0 +1,890 @@
+{
+  "input_archive_sha256": "86c2c389186c5e3ead1fe25c834b7adddd6ba46f72b4db4b7ad6b7d9c9b16b7f",
+  "files": [
+    {
+      "path": ".env.example",
+      "sha256": "9e6c8e7693073070cfc599fb393677a610da08c980f10d99842a5d0ce69a08af",
+      "change": "modified"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "20eced40113a7667eb7ad67a5b7f1e830e4a9c3880576b22adf17c49a75e0473",
+      "change": "modified"
+    },
+    {
+      "path": "INSTALL.txt",
+      "sha256": "f46b53616d0f16ec287a283442f4df0458ce9c2b5b4934e9e17969b653f85382",
+      "change": "modified"
+    },
+    {
+      "path": "NEXORA-AUDIT.md",
+      "sha256": "2aea90760080ef3e79fbcadfb2e177ea7507d49a45818ec0993a7f8c0aa8debc",
+      "change": "added"
+    },
+    {
+      "path": "README-INSTALL.txt",
+      "sha256": "c32d34bd3209cc7480a380cf95ad79766a604ed88929ae3479be5b109076f1a7",
+      "change": "modified"
+    },
+    {
+      "path": "README-PUBLIC-CHAT.txt",
+      "sha256": "4930f46268f20683fa0e1db7a2fb908755a6ba24d1be1f20016e01876cac568d",
+      "change": "modified"
+    },
+    {
+      "path": "README.md",
+      "sha256": "3d914c02232b9fa5edd404505e3b3878ac438b631164732b923991fb71137d70",
+      "change": "added"
+    },
+    {
+      "path": "assistant_ai/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "change": "unchanged"
+    },
+    {
+      "path": "assistant_ai/admin.py",
+      "sha256": "1a8d1c6d171d041afed45b4b7ab87dfb3992840caa54cd35afa974edb2f8f483",
+      "change": "unchanged"
+    },
+    {
+      "path": "assistant_ai/apps.py",
+      "sha256": "c6eca460a3f65625f38efb518a3e659db4c7996db280615550188f7e6aed548e",
+      "change": "unchanged"
+    },
+    {
+      "path": "assistant_ai/booking.py",
+      "sha256": "f817fddce1d2a9dde297b4acfc6be36499a11bed0b535225f77b6f74048e387c",
+      "change": "added"
+    },
+    {
+      "path": "assistant_ai/context.py",
+      "sha256": "89620578229e00547572ce75397b277ca90b73d90bbc248eceb20a7fb319df91",
+      "change": "added"
+    },
+    {
+      "path": "assistant_ai/intent_engine.py",
+      "sha256": "82f53ca6badb769703528bd090a385e5e8b22e1414a5e3f6d9b191d8f6cb4866",
+      "change": "modified"
+    },
+    {
+      "path": "assistant_ai/lead_engine.py",
+      "sha256": "09a2d078884bdc1a12a8d6f076fd59460b0313798f74d7b3756cfce205d18f7f",
+      "change": "modified"
+    },
+    {
+      "path": "assistant_ai/management/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "change": "added"
+    },
+    {
+      "path": "assistant_ai/management/commands/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "change": "added"
+    },
+    {
+      "path": "assistant_ai/management/commands/evaluate_ai.py",
+      "sha256": "9817a0f2755f9ee38c7ca06d5b489a9ed4db09b568107be7c1ab991e68f2621d",
+      "change": "added"
+    },
+    {
+      "path": "assistant_ai/management/commands/purge_rate_limits.py",
+      "sha256": "66b24d1725500a5e9071ae23260b251de87359ed829e8892506f4fb80696f66d",
+      "change": "added"
+    },
+    {
+      "path": "assistant_ai/migrations/0001_initial.py",
+      "sha256": "b09038c09d527d51a5dc17c4f07ee5e1dd244014e6a265d3746bffefd24c75ab",
+      "change": "unchanged"
+    },
+    {
+      "path": "assistant_ai/migrations/0002_lead.py",
+      "sha256": "574327c2bb39ee35290a0745499c709e86170212909be887c49347627e0dfc3a",
+      "change": "unchanged"
+    },
+    {
+      "path": "assistant_ai/migrations/0003_ratelimitbucket_conversation_processing_token_and_more.py",
+      "sha256": "f66a7e787da14a5722555385d7b76c481644d218cd62d3d3b48fe9da82f3801f",
+      "change": "added"
+    },
+    {
+      "path": "assistant_ai/migrations/0004_conversation_initial_turn_id_and_more.py",
+      "sha256": "7998d53ae04961e6544980f95155631c34d60f0fdef82ed32ee56a4bceb61ed2",
+      "change": "added"
+    },
+    {
+      "path": "assistant_ai/migrations/0005_message_request_response.py",
+      "sha256": "505641ad1afa3de987879175aa9a0bacf21e271e7bb56dfb06202d15d915eccf",
+      "change": "added"
+    },
+    {
+      "path": "assistant_ai/migrations/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "change": "unchanged"
+    },
+    {
+      "path": "assistant_ai/models.py",
+      "sha256": "83459b89094aad0b6c3a69fc315a701864e93d3a6fa06b9bfd7fb61bc0065187",
+      "change": "modified"
+    },
+    {
+      "path": "assistant_ai/rate_limits.py",
+      "sha256": "c4086ee97ec6ad40fc0b2d354c0291687db45448b87b7032361cadd5eda8d717",
+      "change": "added"
+    },
+    {
+      "path": "assistant_ai/services.py",
+      "sha256": "84b7d11c6c443a6329ed49c5d9ca05125c2060bf3e51546e47e3af55a82e6316",
+      "change": "unchanged"
+    },
+    {
+      "path": "assistant_ai/static/assistant_ai/playground.css",
+      "sha256": "2396f8e042b90782c6a1969c8cc940434cca30c24110c09ad76d7947389c2deb",
+      "change": "modified"
+    },
+    {
+      "path": "assistant_ai/templates/assistant_ai/playground.html",
+      "sha256": "5c0792c338a0cc6b09b8cb22c7814b4868fa996d85024ac0cf9c0a27e5eb9353",
+      "change": "modified"
+    },
+    {
+      "path": "assistant_ai/test_audit.py",
+      "sha256": "c41efb8d355dd9a0ffe09c78bd2a5b1b419230ceebe98ad39ca76e3a4aeb970d",
+      "change": "added"
+    },
+    {
+      "path": "assistant_ai/test_gemini_first.py",
+      "sha256": "1e2bed8099e289221b330057008f7678301ec6c42864f0072e827e7263e76e4c",
+      "change": "modified"
+    },
+    {
+      "path": "assistant_ai/test_intent_engine.py",
+      "sha256": "2184bb41e189b3eedae1519bcf3abde78734d6113c6f8775c364d4bca5234cb1",
+      "change": "unchanged"
+    },
+    {
+      "path": "assistant_ai/test_recovery.py",
+      "sha256": "e17bc0e40d720b02117f85739e759db9de0db09051b52b5a51ca31737c4f8ded",
+      "change": "added"
+    },
+    {
+      "path": "assistant_ai/test_universal_engine.py",
+      "sha256": "9268e0814f1678d1ee0519eec83b3436853d80cec121a19110dd9566fd5ca628",
+      "change": "modified"
+    },
+    {
+      "path": "assistant_ai/tests.py",
+      "sha256": "b48970ed6c366689553fba7d81ddb5126971060aeb86b35527aa0cc452e87271",
+      "change": "modified"
+    },
+    {
+      "path": "assistant_ai/turns.py",
+      "sha256": "4683fc2b0f3d3acb1cd46945d39b76f0ba5d9c9670566b1baabf106c580c8599",
+      "change": "added"
+    },
+    {
+      "path": "assistant_ai/universal_engine.py",
+      "sha256": "c67a469da0f9b1cf5399a91367e5a4b53495657ced34a9162995d584778148a9",
+      "change": "modified"
+    },
+    {
+      "path": "assistant_ai/universal_requests.py",
+      "sha256": "ecf468c48b403ce1d1674741920cea8c2046ffd8bddbc7eef2ba6bd1a109e229",
+      "change": "unchanged"
+    },
+    {
+      "path": "assistant_ai/urls.py",
+      "sha256": "e1a9a8e22a860cf8c50bb8f90b2eb5a1904a5df9a0a5f753d51733654a297646",
+      "change": "unchanged"
+    },
+    {
+      "path": "assistant_ai/views.py",
+      "sha256": "39f7412fe855ba58e5b216b1e8bf95d30c09244bcb6526a2dc441873e2113a94",
+      "change": "modified"
+    },
+    {
+      "path": "business_brain/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "change": "unchanged"
+    },
+    {
+      "path": "business_brain/apps.py",
+      "sha256": "b5cc6bf54266131535a500307407048256de8211c657b10eef94b27fbd129568",
+      "change": "unchanged"
+    },
+    {
+      "path": "business_brain/forms.py",
+      "sha256": "e57ff5ae30793233c4d9137a263ed3e17b60e7e794b710ffffd0d7f3eb9b4562",
+      "change": "modified"
+    },
+    {
+      "path": "business_brain/knowledge.py",
+      "sha256": "8b3bfac28af61b1ea5b35a98086f4ee4b4f5598be089b283a35ed9f30ebcbe12",
+      "change": "unchanged"
+    },
+    {
+      "path": "business_brain/migrations/0001_initial.py",
+      "sha256": "5396db8f7804447c7810725da5c0411083cac7b5b82e70d7df4ca557d4eda54e",
+      "change": "unchanged"
+    },
+    {
+      "path": "business_brain/migrations/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "change": "unchanged"
+    },
+    {
+      "path": "business_brain/models.py",
+      "sha256": "7d6b9d752add8a811c55815576fa47460d90a540c53711b6b09573d13f475b92",
+      "change": "modified"
+    },
+    {
+      "path": "business_brain/static/business_brain/brain.css",
+      "sha256": "2b0ab3878fd33d014626097ad55f55808d492485bf4fac9dab3ffc72d50ff83d",
+      "change": "modified"
+    },
+    {
+      "path": "business_brain/templates/business_brain/error.html",
+      "sha256": "ee437f43deb012f6d70c06092cbaf18d35b8eb2b2f517ebee8d2665035b8508c",
+      "change": "modified"
+    },
+    {
+      "path": "business_brain/templates/business_brain/home.html",
+      "sha256": "ec42f1d7925da4700c97a800a2cb31422bb126478f046fb1dd7190b899ae2dfc",
+      "change": "modified"
+    },
+    {
+      "path": "business_brain/test_brain.py",
+      "sha256": "973a5925e6dde3327267ce79fea977abf737fffd59963c2dfefdd85aa2a91549",
+      "change": "modified"
+    },
+    {
+      "path": "business_brain/urls.py",
+      "sha256": "2d5608a0781d129519eb4db5e76bff061639dc41292e0575dcfe07319d39f8ec",
+      "change": "unchanged"
+    },
+    {
+      "path": "business_brain/views.py",
+      "sha256": "d17a8c4e634b7ff21736d728825323eb9880fb8b95c57f7ec6cb07f162eb2e38",
+      "change": "modified"
+    },
+    {
+      "path": "business_center/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "change": "unchanged"
+    },
+    {
+      "path": "business_center/apps.py",
+      "sha256": "dbf6da61d30ffd5408f875e278d0ca86ee4accf7bbf06eee74a21b285f64bcc5",
+      "change": "unchanged"
+    },
+    {
+      "path": "business_center/static/business_center/studio.css",
+      "sha256": "6321b6dcc6b2c5437025d14d882b7691cfd1a99b0648eb13a8306b617a1927f9",
+      "change": "modified"
+    },
+    {
+      "path": "business_center/templates/business_center/studio.html",
+      "sha256": "be4d3823661ec47aa5a785acbaadb11c0e89a73f1e21fe419adbf96d693564f5",
+      "change": "modified"
+    },
+    {
+      "path": "business_center/tests.py",
+      "sha256": "e703117c53905b0d03333b60f73cba14eefef808e72b6332013794fa3a7b777a",
+      "change": "modified"
+    },
+    {
+      "path": "business_center/urls.py",
+      "sha256": "7af4a742ee7649a071e8ca129eb1285900097f886a6744bcc30f64a9918aa866",
+      "change": "unchanged"
+    },
+    {
+      "path": "business_center/views.py",
+      "sha256": "9b148d48cc2e3443d8bc74c2a8b383cfe9a6dce3d6105af6ed96968f2635da0e",
+      "change": "modified"
+    },
+    {
+      "path": "config/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "change": "unchanged"
+    },
+    {
+      "path": "config/asgi.py",
+      "sha256": "f23d09f7cded8ce1239e5fbb32961ea409103501b9958934dbd77e92d4a8db21",
+      "change": "unchanged"
+    },
+    {
+      "path": "config/settings.py",
+      "sha256": "315daa9118a2cae583104dc6c3df16eb025b854b25047bfa6cec534190bdc9ab",
+      "change": "modified"
+    },
+    {
+      "path": "config/test_runner.py",
+      "sha256": "e6464b88020648a8ca858996ae4732e9ed86ccfb4a7ac40d5b4b782baaa5d2fd",
+      "change": "added"
+    },
+    {
+      "path": "config/urls.py",
+      "sha256": "f567d1b22c4216a5f64ea136280f0b8602d7bc7aa45d52e38866f626bda056a2",
+      "change": "unchanged"
+    },
+    {
+      "path": "config/wsgi.py",
+      "sha256": "a7b47958708160e7ebcb377d677f5f2081640fb5dc4478bb486743055a85e192",
+      "change": "unchanged"
+    },
+    {
+      "path": "core/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "change": "unchanged"
+    },
+    {
+      "path": "core/access.py",
+      "sha256": "41b9ffa69e0a1346eb824946bdab82866f7950b1091b97376d51aa205fb8ea21",
+      "change": "added"
+    },
+    {
+      "path": "core/admin.py",
+      "sha256": "d9787ec7cf26c6c7ad88939f2133f1306c55b81e7071d75bb127a72333f37a16",
+      "change": "unchanged"
+    },
+    {
+      "path": "core/apps.py",
+      "sha256": "2ed90a74d7a4c9244db9411735916ae49c34e4095df2f8938451de3d7d52c0a1",
+      "change": "unchanged"
+    },
+    {
+      "path": "core/auth_views.py",
+      "sha256": "a94c917e2e11aea4b330f0ec92d2a8210a6d5d78ea4844518629a648deedfce9",
+      "change": "added"
+    },
+    {
+      "path": "core/connect_views.py",
+      "sha256": "15e98a12743b6febae041d0358e3295d9410bdd33f9bcf1d1e52ba3e6d97aa83",
+      "change": "modified"
+    },
+    {
+      "path": "core/launch_views.py",
+      "sha256": "22f8b4f7bd22d8bfaa95204d03143c13df5de32c248dc444a99586a0ee107095",
+      "change": "modified"
+    },
+    {
+      "path": "core/middleware.py",
+      "sha256": "04d7fa580586552a9801d96a71744c45b8243b46cc9770b181608cd2345ba6a7",
+      "change": "added"
+    },
+    {
+      "path": "core/migrations/0001_initial.py",
+      "sha256": "1aa0642323eb7e4814ece52e684cedea3563053b76e9e3fe29640b007fe8e922",
+      "change": "unchanged"
+    },
+    {
+      "path": "core/migrations/0002_business_public_chat_enabled.py",
+      "sha256": "791db720a20579b7579e0f4861c7fe6ad3315ed7c1485060ec4049e602c635b6",
+      "change": "unchanged"
+    },
+    {
+      "path": "core/migrations/0003_businessinvitation.py",
+      "sha256": "e4d638807dccfcecac10bd9fa23e0b0aa032d711dd9c30ce42a22ffae98a5bd5",
+      "change": "unchanged"
+    },
+    {
+      "path": "core/migrations/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "change": "unchanged"
+    },
+    {
+      "path": "core/models.py",
+      "sha256": "5c9a58599d005976ebc68e20653563b4f1d72a5ca8152b6300081c8c102573c7",
+      "change": "unchanged"
+    },
+    {
+      "path": "core/sales_radar.py",
+      "sha256": "d4484964c7e29b9faf1b664492dbdd3ed7ba7efabe0cbc2fadd00206559095eb",
+      "change": "modified"
+    },
+    {
+      "path": "core/static/core/connect.css",
+      "sha256": "656f4a293e72b08c5d815774f740f30057056b6d13b3b3b324bef1b8a6ce712a",
+      "change": "modified"
+    },
+    {
+      "path": "core/static/core/dashboard.css",
+      "sha256": "7ef4a48a2378007c529889ad0556ca4dab5137d7588072b0c272a1a92368b7a9",
+      "change": "modified"
+    },
+    {
+      "path": "core/static/core/design-system.css",
+      "sha256": "c57c9edecabf7a454b2f68f836a7df30e55cf61854495d848b50bb40b0e538d2",
+      "change": "added"
+    },
+    {
+      "path": "core/static/core/launch.css",
+      "sha256": "a722636f77ef29391130fa13124eab1aff743fa3daf95043187901b03390a754",
+      "change": "modified"
+    },
+    {
+      "path": "core/static/core/nexora-widget.js",
+      "sha256": "3f9bf7e75b5a84c00680d66a7bab7b0885e702a266522110b8dff0eed13ef065",
+      "change": "unchanged"
+    },
+    {
+      "path": "core/static/core/radar.css",
+      "sha256": "284e67564da10f21882044f3ecde76e1b55640b928e272a795b4475a6364679d",
+      "change": "unchanged"
+    },
+    {
+      "path": "core/static/core/signature.css",
+      "sha256": "4c1373a4d2ce3ff0566dfeb486476ffd720ba418341342de1476cfde9967714d",
+      "change": "modified"
+    },
+    {
+      "path": "core/static/core/workspace.css",
+      "sha256": "d9d6564a3ccc3faefbc07601301928731f7a8e53581a0c1761a7edf6d0a3ece6",
+      "change": "unchanged"
+    },
+    {
+      "path": "core/templates/core/connect.html",
+      "sha256": "7333c43e3e72a449dad7d813effdb8b28bc8cf40ea66d550924c8e39e901ce1e",
+      "change": "modified"
+    },
+    {
+      "path": "core/templates/core/dashboard.html",
+      "sha256": "edc13ad4591ddb58a0147abe630112dcc177a91bf303072721a4c099c5637148",
+      "change": "modified"
+    },
+    {
+      "path": "core/templates/core/launch.html",
+      "sha256": "595433e12f495e7aab8b7114d442c6c6078e09209288dbe717fcd491aec44c42",
+      "change": "modified"
+    },
+    {
+      "path": "core/templates/core/leads.html",
+      "sha256": "650f7099ce2f5ebc4851e9c9dfdce06db14f9c696977ff6399487ed70d5156d5",
+      "change": "modified"
+    },
+    {
+      "path": "core/templates/core/login.html",
+      "sha256": "e6a89038f5586b7d07dc125e60faecb305acca8591cf136da7800745ef4610b5",
+      "change": "added"
+    },
+    {
+      "path": "core/templates/core/radar.html",
+      "sha256": "b91ba8bbc18706ee9eefc0997a35bb857a42e35ba2c58b87a3faa8632675885c",
+      "change": "modified"
+    },
+    {
+      "path": "core/test_audit.py",
+      "sha256": "f9742fb65ef50646ab862c5cdf665fff13e70509cc8b871bd71e9e084a24cbce",
+      "change": "added"
+    },
+    {
+      "path": "core/test_connect.py",
+      "sha256": "a007bdf639bb7ac54acc782cc4459bcb23450d159c0a3f80dfca15ed4a8e580c",
+      "change": "unchanged"
+    },
+    {
+      "path": "core/test_launch.py",
+      "sha256": "327fec7fb6bef3cad28bd8880956e234b4332d32945b279e8aee02ebfccb68d0",
+      "change": "modified"
+    },
+    {
+      "path": "core/test_sales_radar.py",
+      "sha256": "06b798e5cd234146394cbf30056c12addf1294ddb9ede64aa84df34916b6dc00",
+      "change": "modified"
+    },
+    {
+      "path": "core/tests.py",
+      "sha256": "b48970ed6c366689553fba7d81ddb5126971060aeb86b35527aa0cc452e87271",
+      "change": "modified"
+    },
+    {
+      "path": "core/urls.py",
+      "sha256": "39299b132e6a5eb7aeb1200d6db716c145c6c33ce9faf39c3bd4f0adb575aae2",
+      "change": "modified"
+    },
+    {
+      "path": "core/views.py",
+      "sha256": "e00e8c3d2861c3b42080ccfb56db80c6d9384c13035d7598a97d73feb0513f39",
+      "change": "modified"
+    },
+    {
+      "path": "docs/ADVANCED-CONCURRENCY.json",
+      "sha256": "3bc96ba4ea78bc812a23429c882bc7e0bac9513953c19837cdc772b346ba04a9",
+      "change": "added"
+    },
+    {
+      "path": "docs/AI_EVAL_CORPUS.json",
+      "sha256": "b9bf7cce771755e8dde4655c5cbcd7879eb635efb3a1fd4e3467d9037af74bc3",
+      "change": "added"
+    },
+    {
+      "path": "docs/AI_QUALITY_REPORT.md",
+      "sha256": "06e1bdc383d5b8d631fac143881fa62a3429b448f176de6e03a701dcbdf2c861",
+      "change": "added"
+    },
+    {
+      "path": "docs/ARCHITECTURE_AUDIT.md",
+      "sha256": "915dc28078310eab84c86c414811d585cea1b7f1f804f028d00150c1c1bb16e1",
+      "change": "added"
+    },
+    {
+      "path": "docs/AUDIT_SCOPE.md",
+      "sha256": "481fd27c748891ea32a8cc043cb2439586597de7c752c0d08a91c52171e6d865",
+      "change": "added"
+    },
+    {
+      "path": "docs/BASELINE-PY313-DJANGO60.log",
+      "sha256": "64213b93b1980d5d73eb02e0da4696cae755d4f674d34d30114abba3253028a2",
+      "change": "added"
+    },
+    {
+      "path": "docs/BROWSER-QA.json",
+      "sha256": "baa23001def67541dc06956a9d1c10a31aaf39d6a3bdbb2a83607950af316fe5",
+      "change": "added"
+    },
+    {
+      "path": "docs/BUG_SECURITY_REPORT.md",
+      "sha256": "cdf5f63e1858f15b3c263c91289bd2d31c82700a1b76a8c24193ff884f998d00",
+      "change": "added"
+    },
+    {
+      "path": "docs/CAREER_PORTFOLIO_REVIEW.md",
+      "sha256": "9a027a54f5917fd95caf4e8932b65b8407b6a2adf5d3751507515e47e48ea46e",
+      "change": "added"
+    },
+    {
+      "path": "docs/CHANGELOG.md",
+      "sha256": "2aeaf1a7c90c6d381db1a1f1f4efd69a2a8f5a938febbf24a8b0b1af40b2f628",
+      "change": "added"
+    },
+    {
+      "path": "docs/CHECK-FINAL.log",
+      "sha256": "c0f41e9d77fda2dc38b65183611472aa000dc0dc520211e6ca4ca14f52e1024d",
+      "change": "added"
+    },
+    {
+      "path": "docs/COMPETITOR_RESEARCH.md",
+      "sha256": "d860bea038782781c222c2c7f97435f79e11c4fab1c35af854fe8f9948f08c3b",
+      "change": "added"
+    },
+    {
+      "path": "docs/CONCURRENCY-AFTER.json",
+      "sha256": "ede166f4e85ccfa568245b22458e64daeadf524253da952bee5d46e6c6a25f47",
+      "change": "added"
+    },
+    {
+      "path": "docs/CONCURRENCY-BEFORE.json",
+      "sha256": "21b698d914be9e37b7a230cbd3e903fe3f7805400368a75e9cf54b5fbf4748f5",
+      "change": "added"
+    },
+    {
+      "path": "docs/CONCURRENCY-PORTABLE.json",
+      "sha256": "d7c79fe36fafd3acd3da0ba26d5a2454c329fdb90acaf0f55bf95db97319b370",
+      "change": "added"
+    },
+    {
+      "path": "docs/DEPENDENCY-AUDIT.json",
+      "sha256": "3a6c2b8f768493cfce85dc73dba46bcf07d6b370bf16d713fb708393ed7d27d8",
+      "change": "added"
+    },
+    {
+      "path": "docs/DEPENDENCY-CHECK.log",
+      "sha256": "da2739a9e7040aceb2bdbcf923f559390ed4dc8129dc7e4d101c6d443ad08a78",
+      "change": "added"
+    },
+    {
+      "path": "docs/DEPLOY-CHECK.log",
+      "sha256": "291698a03875f2ba4093d1ffb5b03278d32029447730a1260f8d8c9953bd1d24",
+      "change": "added"
+    },
+    {
+      "path": "docs/EXECUTIVE_SUMMARY.md",
+      "sha256": "f47a6566ef62bee4162e287eed64640a7af436b7530abcd0f729cdd0ef4bebff",
+      "change": "added"
+    },
+    {
+      "path": "docs/HACKATHON_EVALUATION.md",
+      "sha256": "bba8305ef0fb88c81e20a6d121249870ab71fa345e962959b717f169c7989f8c",
+      "change": "added"
+    },
+    {
+      "path": "docs/LIVE-AI-CHECK.log",
+      "sha256": "5056ab1820cc7aea9d5329e3870008b2a8c6309e67fbd1c61e11d6dc4d06ffaa",
+      "change": "added"
+    },
+    {
+      "path": "docs/MIGRATION-PRESERVATION.log",
+      "sha256": "804bf62ade7f99d57e240e2fb0881481f6606aec4682d4f635faa9f080593319",
+      "change": "added"
+    },
+    {
+      "path": "docs/NEXT_STEPS.md",
+      "sha256": "caaafa5493922953318fe799180459889c71883fa0498fb9ad02b6f7707a0395",
+      "change": "added"
+    },
+    {
+      "path": "docs/PRIORITIZED_ROADMAP.md",
+      "sha256": "55bab24e26bdce2e1bdf0ed87da6672c0e0fd258cbc179e8ddd12dcff00d7a5c",
+      "change": "added"
+    },
+    {
+      "path": "docs/PRODUCT_STRATEGY.md",
+      "sha256": "cbeb6f3dd6c5a1e0cdfe33779a9e881592fe46d2b03f4b88d99d3156a57ba3ee",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-BASELINE.log",
+      "sha256": "b05a8a61f6e1b754e2d46030233df65d06ad275ed2c522aa0959f2ae9752f9ff",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-CONCURRENCY-errors.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-CONCURRENCY.json",
+      "sha256": "7fbeefb65647cda6254e3b231dca6a1f44ed343de834781e752e871dfc4efbf4",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-DEPENDENCIES.json",
+      "sha256": "b393ad39f6935626f42f99878dccc61b36b42bff64f7aaa07a9e09ec2a79ae5e",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-DEPENDENCY-CHECK.log",
+      "sha256": "573765e88d6c81e7993b5e5cb1dc7424e8ca2150ce19f925ac3a89c5131e724c",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-DEPLOY-PRODUCTION.log",
+      "sha256": "291698a03875f2ba4093d1ffb5b03278d32029447730a1260f8d8c9953bd1d24",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-DEPLOY.log",
+      "sha256": "9a66c58294bba76f84b20a45b358cc2292f778f7117a4f9e7066753d88a1653f",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-FINAL-TEST.log",
+      "sha256": "75cc2dc72afc0aeac947538f99cc1f8e152d9fb8f2a7a96abe8ad16bec622d79",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-LINT.log",
+      "sha256": "e38d176dcde84abccea15507d5b0ca927c8b6c3335fd020cf0cdefeb3a8c6826",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-MIGRATION.log",
+      "sha256": "18af7344858ce5046ed54716767937b99a5f1c8acc19a37cbeb56863bb91a436",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-PIP.log",
+      "sha256": "e1f1e602d536320d3343d6da32418e4780d20ea43a3a7698221bd94395051ca6",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-RACES-errors.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-RACES.json",
+      "sha256": "c985aae914a0cb222813bfaa2fd3dbae1cc5ff9a8abb45e2cb5c0cbaa77f3418",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-RECOVERY-AFTER.log",
+      "sha256": "fa461aa4ed0b06575e0bb9ae6ee0c16fed39bcbc4b9e6a2b39cd4fa172ece75a",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-RECOVERY-BEFORE.log",
+      "sha256": "3dac35506cc6118f6f8984684351b9bf683782a07ac4a1895c355e08b1c4eeda",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-SDK-errors.log",
+      "sha256": "af974ce6ef807ff2213babff503ebde7a2425de9e394d2d404d06524f9e7b7ab",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-SDK.json",
+      "sha256": "254348a71184118be2b612b66af6444852e6478d1d90b20c01113a23e8731c3a",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-TEST.log",
+      "sha256": "e8e7def43890b29298e8a24f291880bd61490d8315a6a01e56eacd5708b8c437",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-UI-errors.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY-UI.json",
+      "sha256": "baa23001def67541dc06956a9d1c10a31aaf39d6a3bdbb2a83607950af316fe5",
+      "change": "added"
+    },
+    {
+      "path": "docs/REVERIFY.md",
+      "sha256": "c36b57dceb14d5ce7ce6e3909556050975ef7f7505898ee60c5cee80d45c7e0f",
+      "change": "added"
+    },
+    {
+      "path": "docs/SDK-TRANSPORT.json",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "change": "added"
+    },
+    {
+      "path": "docs/STATIC-CHECK.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "change": "added"
+    },
+    {
+      "path": "docs/TEST-FINAL.log",
+      "sha256": "b1da27341622ea5194c6268ccad998fccd3f735f84165aaa0fbaf143c06f11f7",
+      "change": "added"
+    },
+    {
+      "path": "docs/TEST_RESULTS.md",
+      "sha256": "8851a9078db6c1099b9c272268d6e1fc67f8f0fe57a73677b1056bfbafee1643",
+      "change": "added"
+    },
+    {
+      "path": "docs/UX_UI_REVIEW.md",
+      "sha256": "128beee58a75dac24561326f9dced71c9dc4bc0d26613de581bc47aad94b96b5",
+      "change": "added"
+    },
+    {
+      "path": "docs/catalog-desktop.png",
+      "sha256": "65e1fbd89b1819a1fb4c0ebe3edc2a6bee16888d29180567fc57cb8017fa0e22",
+      "change": "added"
+    },
+    {
+      "path": "docs/catalog-mobile.png",
+      "sha256": "98cd42044db7c2184185fc2f5c48854bf47a0817946df1ddb61a2609e4a74edd",
+      "change": "added"
+    },
+    {
+      "path": "docs/playground-mobile.png",
+      "sha256": "0dc327c9947e46f8b9a7a49fb83c3e7d7edb67038320742aa1f5b68829a02bb6",
+      "change": "added"
+    },
+    {
+      "path": "docs/public-desktop.png",
+      "sha256": "38beff29187525dbb955d7094673a54f275817e03c65a37df1c13e874fe69ba4",
+      "change": "added"
+    },
+    {
+      "path": "docs/public-mobile.png",
+      "sha256": "89fcfad67cdba8c9c605f489de6e106de378d9cf64d3367ee2a116af7d28a56d",
+      "change": "added"
+    },
+    {
+      "path": "docs/reverify-catalog-desktop.png",
+      "sha256": "a7650b0141c6a318639394148290599c82fba7da1a1518ec5588a8a367146a6f",
+      "change": "added"
+    },
+    {
+      "path": "docs/reverify-catalog-mobile.png",
+      "sha256": "6a8ad4f808158098c25ef87ff5057dfa5bc2168bb916dd86a1f7e61504fd5754",
+      "change": "added"
+    },
+    {
+      "path": "docs/reverify-playground-mobile.png",
+      "sha256": "a640875ffe4b99623b9238c3e79d38c658168bad117cc10673aae81872b31a16",
+      "change": "added"
+    },
+    {
+      "path": "docs/reverify-public-desktop.png",
+      "sha256": "54a15ce2551e611a8384ab759b5b6cb5f12cb471ded1f03a3f0bc701854a3dd6",
+      "change": "added"
+    },
+    {
+      "path": "docs/reverify-public-mobile.png",
+      "sha256": "5892cf976211f9171748ec9a28efe7394f15842d3a29221e48c6938ed0015526",
+      "change": "added"
+    },
+    {
+      "path": "docs/reverify-studio-desktop.png",
+      "sha256": "3530305e57f1b54794db7d8a7e323b09bbdc5f5942c5d989ac96e674108716e4",
+      "change": "added"
+    },
+    {
+      "path": "docs/studio-desktop.png",
+      "sha256": "67ad042fa0459901f66d4f9efe05d4f8f3b7fbe3487a1e0ae753f07f55bc8809",
+      "change": "added"
+    },
+    {
+      "path": "manage.py",
+      "sha256": "b30eeb4890cb6f315cc238313808f636db29e9906b61cc6f6051567156a0097b",
+      "change": "unchanged"
+    },
+    {
+      "path": "public_chat/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "change": "unchanged"
+    },
+    {
+      "path": "public_chat/apps.py",
+      "sha256": "3d5e359c49fae403b2592fcb15bda9a6108c2a733b1691c063ed16fd33249a26",
+      "change": "unchanged"
+    },
+    {
+      "path": "public_chat/static/public_chat/chat.css",
+      "sha256": "40f250148725d36e4e0f3d859425155580fc5072d06ba05da92e90c07eb22bf6",
+      "change": "modified"
+    },
+    {
+      "path": "public_chat/templates/public_chat/chat.html",
+      "sha256": "418d2aeebb2a33b1dd5230386c9f0a660776d00978013f99c2a4806f944ab4a6",
+      "change": "modified"
+    },
+    {
+      "path": "public_chat/test_audit.py",
+      "sha256": "018e7334e6888ae950c51c61332d7d5b8ccdc3a21b55a742c07e7f62797caf7c",
+      "change": "added"
+    },
+    {
+      "path": "public_chat/tests.py",
+      "sha256": "36c5ec452a96ac090a3ae5ffa1537f435914bb38d4707b0eef1e914ec22782aa",
+      "change": "modified"
+    },
+    {
+      "path": "public_chat/urls.py",
+      "sha256": "30fe25ac7d5c3b48ad4903316b7d607176422a5b5beafeef64948d9e50c99794",
+      "change": "unchanged"
+    },
+    {
+      "path": "public_chat/views.py",
+      "sha256": "b69f1cca1c4531a4cd896c943bd8a968601ef70f66c751fd88ef1776a33f1ddb",
+      "change": "modified"
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "efc5a285e5fab83349da331b23f3c1bc3aad1685ce1b61f7c7fb397efa13e69b",
+      "change": "modified"
+    },
+    {
+      "path": "scripts/qa_concurrency.py",
+      "sha256": "64c7b6f23aa6d15394f01b30b26e01182b6de754daf00424cd58881da2f49dea",
+      "change": "added"
+    },
+    {
+      "path": "scripts/qa_races.py",
+      "sha256": "812ba566253dc08f9284acbae705c673ddafdbbac314615e7176ea18dca6ac80",
+      "change": "added"
+    },
+    {
+      "path": "scripts/qa_sdk_transport.py",
+      "sha256": "0a3e6372791a0c13c848d35e91f5fc83695cebc7fdbb809107f9e29ec0c36257",
+      "change": "added"
+    }
+  ]
+}

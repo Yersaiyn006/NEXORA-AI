@@ -1,0 +1,20 @@
+/* NEXORA shared desktop workspace */
+body.nex-workspace{margin:0;background:#f5f7fb;color:#17223b;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+.nex-side{position:fixed;inset:0 auto 0 0;width:248px;box-sizing:border-box;background:#111c33;color:#dbe5fa;padding:29px 16px;display:flex;flex-direction:column;z-index:10}
+.nex-logo{color:white!important;font-weight:850;font-size:21px;text-decoration:none!important;padding:8px 14px 30px}.nex-logo span{color:#a4b4ff}
+.nex-caption{color:#8da0c1;letter-spacing:.12em;font-size:11px;font-weight:700;padding:0 14px;margin:6px 0 15px}
+.nex-side nav{display:grid;gap:6px}.nex-side nav a{display:block;color:#c3d0e9!important;text-decoration:none!important;padding:13px 14px;border-radius:11px;font-size:14px;font-weight:600}.nex-side nav a:hover,.nex-side nav a[aria-current="page"]{background:#293958;color:white!important}.nex-account{margin-top:auto;border-top:1px solid #31405b;padding:20px 14px 0;color:#c3d0e9;font-size:13px;overflow-wrap:anywhere}
+.nex-workspace .nex-main{margin-left:248px;min-height:100vh;padding:38px clamp(24px,4vw,70px);box-sizing:border-box;max-width:none}
+.nex-workspace .nex-main h1{color:#152039;font-size:32px;letter-spacing:-.04em}.nex-workspace .nex-main p{color:#64748b}
+.nex-workspace .nex-main select,.nex-workspace .nex-main input{background:white;color:#1b2841;border:1px solid #dce3ef;border-radius:10px;padding:10px}
+.nex-workspace .nex-main button{cursor:pointer}
+.nex-workspace .nex-main .lead-card,.nex-workspace .nex-main .empty-leads,.nex-workspace .nex-main .panel,.nex-workspace .nex-main .stats article{background:#fff!important;color:#192741!important;border:1px solid #e2e8f2!important;border-radius:16px!important;box-shadow:0 8px 30px rgba(24,42,80,.04)}
+.nex-workspace .nex-main .lead-meta,.nex-workspace .nex-main .empty-leads{color:#64748b!important}
+.nex-workspace .nex-main .tag,.nex-workspace .nex-main .back{color:#5269d8!important}
+.nex-workspace .nex-main .lead-actions button{background:#5269d8}.nex-workspace .nex-main .lead-actions .cancel{background:#fbe7e9;color:#9c2436}
+.nex-workspace .nex-main .shell{max-width:1200px;margin:0 auto;padding:0;background:transparent;color:#17223b}
+.nex-workspace .nex-main .shell>nav{display:none}
+.nex-workspace .nex-main .panel h2,.nex-workspace .nex-main .panel b,.nex-workspace .nex-main .stats strong{color:#17223b}
+.nex-workspace .nex-main .muted,.nex-workspace .nex-main small{color:#65748d}
+.nex-workspace .nex-main .filters{background:white;border:1px solid #e2e8f2;border-radius:14px;padding:18px}
+@media(max-width:950px){.nex-side{width:200px}.nex-workspace .nex-main{margin-left:200px;padding:24px}}

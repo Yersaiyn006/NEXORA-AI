@@ -1,0 +1,9 @@
+{
+  "public_catalog": true,
+  "reload_memory": true,
+  "owner_login": true,
+  "crm_search": true,
+  "public_mobile_overflow": false,
+  "catalog_mobile_overflow": false,
+  "js_errors": []
+}

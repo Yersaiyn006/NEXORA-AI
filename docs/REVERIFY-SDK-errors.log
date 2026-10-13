@@ -1,0 +1,2 @@
+ai_failure business=1 conversation=8d58c0f7-fd63-4bf0-8422-8d1037089979 error_type=ClientError elapsed_ms=6
+ai_failure business=1 conversation=8d58c0f7-fd63-4bf0-8422-8d1037089979 error_type=ReadTimeout elapsed_ms=56

@@ -81,3 +81,15 @@ class Membership(models.Model):
 
     def __str__(self):
         return f"{self.user} - {self.business}"
+class BusinessInvitation(models.Model):
+    """One-use onboarding invitation; only the SHA256 digest is persisted."""
+    business = models.ForeignKey(Business, on_delete=models.CASCADE, related_name="invitations")
+    email = models.EmailField()
+    token_hash = models.CharField(max_length=64, unique=True)
+    expires_at = models.DateTimeField()
+    used_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def is_valid(self):
+        from django.utils import timezone
+        return self.used_at is None and self.expires_at > timezone.now()

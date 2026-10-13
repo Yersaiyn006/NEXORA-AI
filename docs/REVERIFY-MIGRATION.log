@@ -1,0 +1,10 @@
+Operations to perform:
+  Apply all migrations: admin, assistant_ai, auth, business_brain, contenttypes, core, sessions
+Running migrations:
+  Applying assistant_ai.0003_ratelimitbucket_conversation_processing_token_and_more... OK
+  Applying assistant_ai.0004_conversation_initial_turn_id_and_more... OK
+  Applying assistant_ai.0005_message_request_response... OK
+
+22 objects imported automatically (use -v 2 for details).
+
+{"migration": "original to updated 0005", "business_preserved": true, "conversation_preserved": true, "message_preserved": true, "lead_preserved": true, "new_receipt_default_empty": true}

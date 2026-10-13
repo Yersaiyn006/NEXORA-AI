@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEXORA AI | Dashboard</title>
     <link rel="stylesheet" href="{% static 'core/dashboard.css' %}">
+<link rel="stylesheet" href="{% static 'core/design-system.css' %}">
 </head>
 <body>
 
@@ -29,7 +30,9 @@
                  ✧ &nbsp; AI-сотрудник
             </a>
             <a href="{% url 'radar' %}{% if business %}?business={{ business.id }}{% endif %}" class="nav-item">▤ &nbsp; Sales Radar</a>
-        </nav>
+        <a href="{% url 'connect_home' %}{% if business %}?business={{ business.pk }}{% endif %}" class="nav-item">◉ &nbsp; Подключить AI</a>
+<a href="{% url 'launch_home' %}" class="nav-item">🚀 &nbsp; Запуск бизнеса</a>
+</nav>
 
         <div class="sidebar-bottom">
             <div class="user-avatar">
@@ -179,5 +182,5 @@
     </main>
 </div>
 
-</body>
+{% if request.user.is_authenticated %}<form class="nx-logout" method="post" action="{% url 'logout' %}">{% csrf_token %}<button type="submit">Выйти</button></form>{% endif %}</body>
 </html>

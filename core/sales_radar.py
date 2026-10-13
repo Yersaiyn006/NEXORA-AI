@@ -2,7 +2,7 @@
 import re
 from collections import Counter
 from django.db.models import Count
-from assistant_ai.models import Conversation, Lead, Message
+from assistant_ai.models import Conversation, Lead
 
 INTEREST = re.compile(r"(?:\b(?:цена|цену|стоимость|стоит|сколько|прайс|записаться|запишите|запись|бронь|забронировать|услуг[аиу]|свободн(?:ое|ые)\s+время)\b|қанша|бағасы|жазыл)", re.I)
 PRICE = re.compile(r"(?:\b(?:цена|цену|стоимость|стоит|сколько|прайс)\b|қанша|бағасы)", re.I)
@@ -21,7 +21,7 @@ def sales_radar(business, include_playground=False):
     for conversation in conversations:
         total += 1
         leads = list(conversation.leads.all())
-        if any(lead.status in ("new", "confirmed", "cancelled") for lead in leads):
+        if any(lead.status in ("new", "confirmed") for lead in leads):
             with_lead += 1
         customer_messages = [m.content for m in conversation.messages.all() if m.role == "customer"]
         matched = [m for m in customer_messages if INTEREST.search(m)]

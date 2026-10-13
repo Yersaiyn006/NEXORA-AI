@@ -1,0 +1,4 @@
+Read README.md for the current installation procedure.
+Back up the existing project and db.sqlite3. Preserve your .env.
+Use Python 3.12+; install requirements.txt; run migrate, check, test, runserver.
+Business login: /accounts/login/. Operator administration: /admin/.
