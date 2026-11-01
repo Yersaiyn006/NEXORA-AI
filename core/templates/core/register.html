@@ -1,0 +1,104 @@
+
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Регистрация · NEXORA AI</title>
+
+    <link rel="stylesheet"
+          href="{% static 'core/design-system.css' %}">
+</head>
+
+<body class="nx-ui nx-login">
+
+<main class="nx-login-layout">
+
+    <section class="nx-login-story">
+
+        <a class="nx-brand" href="{% url 'login' %}">
+            <i class="nx-mark" aria-hidden="true"></i>
+            NEXORA<span>AI</span>
+        </a>
+
+        <div class="nx-login-headline">
+            <span class="nx-label">
+                ИНТЕЛЛЕКТ ДЛЯ ВАШЕГО БИЗНЕСА
+            </span>
+
+            <h1>
+                Ваш бизнес.<br>
+                Новые<br>
+                <em>возможности.</em>
+            </h1>
+        </div>
+
+        {% include 'core/components/orbit.html' %}
+
+        <div class="nx-login-caption">
+            <span>14 дней для знакомства с NEXORA AI.</span>
+            <span>01 — NEXORA</span>
+        </div>
+
+    </section>
+
+    <section class="nx-login-form">
+
+        <div class="nx-login-intro">
+            <div class="nx-label">
+                НАЧНИТЕ С NEXORA AI
+            </div>
+
+            <h2>Создайте компанию.</h2>
+
+            <p>
+                Зарегистрируйтесь и настройте
+                своего AI-консультанта.
+            </p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            {% for field in form %}
+                <p>
+                    <label for="{{ field.id_for_label }}">
+                        {{ field.label }}
+                    </label>
+
+                    {{ field }}
+                    {{ field.errors }}
+                </p>
+            {% endfor %}
+
+            <button type="submit" class="nx-primary">
+                Создать аккаунт <span>↗</span>
+            </button>
+        </form>
+
+        <div class="nx-login-invite">
+            <span>Уже есть аккаунт?</span>
+
+            <p>
+                <a href="{% url 'login' %}">
+                    Войти в NEXORA AI →
+                </a>
+            </p>
+        </div>
+
+        <div class="nx-login-footer">
+            NEXORA AI
+            <span>Ваш следующий шаг.</span>
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>

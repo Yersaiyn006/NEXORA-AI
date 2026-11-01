@@ -1,1 +1,125 @@
-{% load static %}<!doctype html><html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Вход · NEXORA AI</title><link rel="stylesheet" href="{% static 'core/design-system.css' %}"></head><body class="nx-ui nx-login"><main class="nx-login-layout"><section class="nx-login-story"><a class="nx-brand" href="{% url 'login' %}"><i class="nx-mark" aria-hidden="true"></i>NEXORA<span>AI</span></a><div class="nx-login-headline"><span class="nx-label">ИНТЕЛЛЕКТ ДЛЯ ВАШЕГО БИЗНЕСА</span><h1>Ближе<br>к клиентам.<br><em>На шаг<br>впереди.</em></h1></div>{% include 'core/components/orbit.html' %}<div class="nx-login-caption"><span>Данные. Диалоги. Возможности.</span><span>01 — NEXORA</span></div></section><section class="nx-login-form"><div class="nx-login-intro"><div class="nx-label">ВАШЕ РАБОЧЕЕ ПРОСТРАНСТВО</div><h2>С возвращением.</h2><p>Всё для вашего AI-консультанта — в одном месте.</p></div><form method="post">{% csrf_token %}{{ form.non_field_errors }}<p><label for="{{ form.username.id_for_label }}">Логин</label>{{ form.username }}{{ form.username.errors }}</p><p><label for="{{ form.password.id_for_label }}">Пароль</label>{{ form.password }}{{ form.password.errors }}</p>{% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}<button type="submit" class="nx-primary">Войти в кабинет <span>↗</span></button></form><div class="nx-login-invite"><span>Новая компания?</span><p>Для подключения получите персональное приглашение у оператора NEXORA.</p></div><div class="nx-login-footer">NEXORA AI <span>Создано для вашего следующего шага.</span></div></section></main></body></html>
+
+{% load static %}
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1">
+
+    <title>Вход · NEXORA AI</title>
+
+    <link rel="stylesheet"
+          href="{% static 'core/design-system.css' %}">
+</head>
+
+<body class="nx-ui nx-login">
+
+<main class="nx-login-layout">
+
+    <section class="nx-login-story">
+
+        <a class="nx-brand" href="{% url 'login' %}">
+            <i class="nx-mark" aria-hidden="true"></i>
+            NEXORA<span>AI</span>
+        </a>
+
+        <div class="nx-login-headline">
+            <span class="nx-label">
+                ИНТЕЛЛЕКТ ДЛЯ ВАШЕГО БИЗНЕСА
+            </span>
+
+            <h1>
+                Ближе<br>
+                к клиентам.<br>
+                <em>На шаг<br>впереди.</em>
+            </h1>
+        </div>
+
+        {% include 'core/components/orbit.html' %}
+
+        <div class="nx-login-caption">
+            <span>Данные. Диалоги. Возможности.</span>
+            <span>01 — NEXORA</span>
+        </div>
+
+    </section>
+
+    <section class="nx-login-form">
+
+        <div class="nx-login-intro">
+            <div class="nx-label">
+                ВАШЕ РАБОЧЕЕ ПРОСТРАНСТВО
+            </div>
+
+            <h2>С возвращением.</h2>
+
+            <p>
+                Всё для вашего AI-консультанта —
+                в одном месте.
+            </p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            {{ form.non_field_errors }}
+
+            <p>
+                <label for="{{ form.username.id_for_label }}">
+                    Логин
+                </label>
+
+                {{ form.username }}
+                {{ form.username.errors }}
+            </p>
+
+            <p>
+                <label for="{{ form.password.id_for_label }}">
+                    Пароль
+                </label>
+
+                {{ form.password }}
+                {{ form.password.errors }}
+            </p>
+
+            {% if next %}
+                <input type="hidden"
+                       name="next"
+                       value="{{ next }}">
+            {% endif %}
+
+            <button type="submit" class="nx-primary">
+                Войти в кабинет <span>↗</span>
+            </button>
+        </form>
+
+        <div class="nx-login-invite">
+            <span>Новая компания?</span>
+
+            <p>
+                <a href="{% url 'register' %}">
+                    Создать аккаунт бесплатно →
+                </a>
+            </p>
+
+            <p>
+                Настройте компанию и получите
+                14 дней пробного доступа
+                после запуска чата.
+            </p>
+        </div>
+
+        <div class="nx-login-footer">
+            NEXORA AI
+            <span>
+                Создано для вашего следующего шага.
+            </span>
+        </div>
+
+    </section>
+
+</main>
+
+</body>
+</html>
