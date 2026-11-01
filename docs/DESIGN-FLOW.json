@@ -1,0 +1,23 @@
+{
+  "catalog_create": true,
+  "catalog_edit": true,
+  "knowledge_create": true,
+  "public_request_created": true,
+  "owner_request_search": true,
+  "checks": [
+    {
+      "path": "/chat/tagam-design/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/accounts/login/",
+      "width": 390,
+      "overflow": false
+    }
+  ],
+  "menu": true,
+  "public_catalog": true,
+  "reload_memory": true,
+  "js_errors": []
+}

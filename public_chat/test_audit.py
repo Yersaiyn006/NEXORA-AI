@@ -49,6 +49,28 @@ class PublicAuditTests(TestCase):
         session.save()
         self.assertNotContains(self.client.get(self.page), "FOREIGN_SECRET")
 
+    def test_new_public_conversation_does_not_store_raw_session_key(self):
+        self.client.get(self.page)
+        session_key = self.client.session.session_key
+        response = self.client.post(self.send, {"message": "Hello"})
+        self.assertEqual(response.status_code, 200)
+        conversation = Conversation.objects.get(business=self.business)
+        self.assertTrue(conversation.customer_name.startswith("Public:"))
+        self.assertNotIn(session_key, conversation.customer_name)
+
+    def test_legacy_public_conversation_still_loads(self):
+        self.client.get(self.page)
+        session_key = self.client.session.session_key
+        conversation = Conversation.objects.create(
+            business=self.business, channel="web",
+            customer_name=f"Public:{session_key}",
+        )
+        Message.objects.create(conversation=conversation, role="customer", content="Legacy history")
+        session = self.client.session
+        session[f"public_chat_{self.business.pk}"] = str(conversation.pk)
+        session.save()
+        self.assertContains(self.client.get(self.page), "Legacy history")
+
     def test_malformed_session_uuid_does_not_crash(self):
         self.client.get(self.page)
         session = self.client.session

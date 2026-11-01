@@ -9,22 +9,22 @@
 
     <title>{{ business.name }} | NEXORA</title>
 
-    <link rel="stylesheet" href="{% static 'public_chat/chat.css' %}">
+    
 <link rel="stylesheet" href="{% static 'core/design-system.css' %}">
 </head>
-<body>
+<body class="nx-ui nx-public">
 
 <main class="shell">
 
     <header class="top">
         <div class="brand">
-            ✦ NEXORA <span>AI</span>
+            <i class="nx-mark" aria-hidden="true"></i>NEXORA <span>AI</span>
         </div>
         <div class="online">AI-консультант</div>
     </header>
 
     <section class="hero">
-        <div class="avatar">✦</div>
+        <div class="avatar"><i class="nx-mark" aria-hidden="true"></i></div><div class="nx-public-eyebrow">ПРОСТО СПРОСИТЕ</div>
         <h1>{{ business.name }}</h1>
         <p>
             {{ business.description|default:'Добро пожаловать! Задайте вопрос или оставьте заявку.' }}
@@ -162,4 +162,4 @@ form.addEventListener("submit", async event => {
     }
 });
 </script>
-</body></html>
+<script src="{% static 'core/nexora-ui.js' %}" defer></script></body></html>

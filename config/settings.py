@@ -60,6 +60,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -92,13 +93,18 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.getenv('NEXORA_DATABASE_PATH', str(BASE_DIR / 'db.sqlite3')),
-        'OPTIONS': {'timeout': 10, 'transaction_mode': 'IMMEDIATE'},
+# PostgreSQL in production; local SQLite remains available for development.
+if os.getenv("DATABASE_URL"):
+    import dj_database_url
+    DATABASES = {"default": dj_database_url.config(conn_max_age=60, conn_health_checks=True)}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.getenv("NEXORA_DATABASE_PATH", str(BASE_DIR / "db.sqlite3")),
+            "OPTIONS": {"timeout": 10, "transaction_mode": "IMMEDIATE"},
+        }
     }
-}
 
 
 # Password validation
@@ -135,7 +141,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 LOGIN_URL = "/accounts/login/"
 LOGIN_REDIRECT_URL = "/"
@@ -162,11 +168,38 @@ if NEXORA_PRODUCTION:
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     SECURE_SSL_REDIRECT = True
-    SECURE_HSTS_SECONDS = 3600
+    SECURE_HSTS_SECONDS = int(os.getenv("DJANGO_HSTS_SECONDS", "3600"))
+    SECURE_HSTS_INCLUDE_SUBDOMAINS = False
+    SECURE_HSTS_PRELOAD = False
+    SECURE_CONTENT_TYPE_NOSNIFF = True
     SECURE_REFERRER_POLICY = "same-origin"
+    SESSION_COOKIE_HTTPONLY = True
+    CSRF_COOKIE_HTTPONLY = True
+    # Set only if a trusted reverse proxy strips incoming forwarded headers.
+    if os.getenv("DJANGO_TRUST_PROXY_SSL_HEADER", "false").lower() == "true":
+        SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    origins = os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS", "").strip()
+    if origins:
+        CSRF_TRUSTED_ORIGINS = [value.strip() for value in origins.split(",") if value.strip()]
 
 TEST_RUNNER = "config.test_runner.OfflineTestRunner"
 
 NEXORA_PUBLIC_GLOBAL_PER_DAY = int(os.getenv("NEXORA_PUBLIC_GLOBAL_PER_DAY", "5000"))
 NEXORA_AI_BUSINESS_PER_DAY = max(0, int(os.getenv("NEXORA_AI_BUSINESS_PER_DAY", "1000")))
 NEXORA_AI_GLOBAL_PER_DAY = max(0, int(os.getenv("NEXORA_AI_GLOBAL_PER_DAY", "5000")))
+
+# Oracle deployment: enable HTTPS only after the domain is configured.
+STATIC_ROOT = BASE_DIR / "staticfiles"
+STORAGES = {
+    "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
+    "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},
+}
+if os.getenv("NEXORA_PRODUCTION", "false").lower() == "true":
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+    SECURE_SSL_REDIRECT = True
+    SECURE_HSTS_SECONDS = int(os.getenv("DJANGO_HSTS_SECONDS", "3600"))
+    SECURE_CONTENT_TYPE_NOSNIFF = True
+    SECURE_REFERRER_POLICY = "same-origin"
+    SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    CSRF_TRUSTED_ORIGINS = [x.strip() for x in os.getenv("DJANGO_CSRF_TRUSTED_ORIGINS", "").split(",") if x.strip()]

@@ -6,39 +6,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>NEXORA | AI-консультант</title>
-    <link rel="stylesheet" href="{% static 'assistant_ai/playground.css' %}">
-<link rel="stylesheet" href="{% static 'core/signature.css' %}">
+    
+
 <link rel="stylesheet" href="{% static 'core/design-system.css' %}">
 </head>
-<body>
+<body class="nx-ui nx-playground">
 <div class="app">
-    <aside class="sidebar">
-        <a href="{% url 'dashboard' %}" class="logo">
-            ✦ NEXORA <span>AI</span>
-        </a>
+    {% include 'core/components/sidebar.html' with section='playground' %}
 
-        <p class="nav-label">НАВИГАЦИЯ</p>
-        <a class="nav-link" href="{% url 'dashboard' %}">◈ Обзор</a>
-        <a class="nav-link active" href="{% url 'ai_playground' %}">
-            ✧ AI-консультант
-        </a>
-
-        <div class="sidebar-bottom">
-            <div class="avatar">
-                {{ request.user.username|first|upper }}
-            </div>
-            <div>
-                <strong>{{ request.user.username }}</strong>
-                <small>Сотрудник</small>
-            </div>
-        </div>
-    </aside>
-
-    <main class="main">
+    <main id="nx-content" class="main">
         <header>
             <div>
                 <span class="eyebrow">NEXORA / КОНСУЛЬТАНТ</span>
-                <h1>AI-консультант</h1>
+                <h1>Диалог начинается<br><span class="nx-heading-accent">с вашего бизнеса.</span></h1>
                 <p>Умный помощник с постоянной историей диалогов.</p>
             </div>
             <span class="status">● История сохраняется</span>
@@ -89,7 +69,7 @@
                 <div class="chat-header">
                     <div class="bot-avatar">✦</div>
                     <div>
-                        <strong>NEXORA Assistant</strong>
+                        <strong>NEXORA AI</strong>
                         <small>База знаний · История включена</small>
                     </div>
                     <button id="new-chat" type="button">+ Новый чат</button>
@@ -97,7 +77,7 @@
 
                 <div class="messages" id="messages">
                     <div class="message assistant">
-                        Привет! Я NEXORA Assistant.
+                        Привет! Я NEXORA AI.
                         Задайте вопрос о компании {{ business.name }}.
                     </div>
                 </div>
@@ -120,7 +100,7 @@
                     </form>
                     <small id="chat-status">
                         Диалоги сохраняются в NEXORA Memory.
-                        Gemini пока не используется.
+                        Ответы опираются на данные выбранной компании.
                     </small>
                 </div>
             </section>
@@ -434,5 +414,5 @@ input.addEventListener("keydown", (event) => {
 loadHistory(true);
 </script>
 {% endif %}
-{% if request.user.is_authenticated %}<form class="nx-logout" method="post" action="{% url 'logout' %}">{% csrf_token %}<button type="submit">Выйти</button></form>{% endif %}</body>
+<script src="{% static 'core/nexora-ui.js' %}" defer></script></body>
 </html>

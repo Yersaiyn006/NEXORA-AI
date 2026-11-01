@@ -1,0 +1,7 @@
+1. Copy files from this ZIP to the root of your GitHub repository and commit/push.
+2. Create a PostgreSQL database (Render free DB expires after 30 days; use test data only).
+3. Render -> New -> Blueprint -> select repository -> apply render.yaml.
+4. In service Environment set DATABASE_URL to the DB internal connection URL, DJANGO_ALLOWED_HOSTS to your-service.onrender.com, DJANGO_CSRF_TRUSTED_ORIGINS to https://your-service.onrender.com, and GEMINI_API_KEY if needed.
+5. Deploy / Redeploy after setting variables. Check Logs for migrations and collectstatic.
+6. Create admin via Render Shell if available, otherwise a one-off job or local manage.py with DATABASE_URL; never expose passwords in git.
+IMPORTANT: Render free web instances sleep; free Postgres expires. This is a demo deployment, not a durable production data store.

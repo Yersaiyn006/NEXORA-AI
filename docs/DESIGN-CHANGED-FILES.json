@@ -1,0 +1,26 @@
+{
+  "changed_or_added": [
+    "README-DESIGN-RU.md",
+    "assistant_ai/templates/assistant_ai/playground.html",
+    "business_brain/templates/business_brain/error.html",
+    "business_brain/templates/business_brain/home.html",
+    "business_center/templates/business_center/studio.html",
+    "core/static/core/design-system.css",
+    "core/static/core/nexora-ui.js",
+    "core/static/core/nexora-widget.js",
+    "core/templates/core/components/icons.html",
+    "core/templates/core/components/orbit.html",
+    "core/templates/core/components/sidebar.html",
+    "core/templates/core/connect.html",
+    "core/templates/core/dashboard.html",
+    "core/templates/core/launch.html",
+    "core/templates/core/leads.html",
+    "core/templates/core/login.html",
+    "core/templates/core/radar.html",
+    "docs/DESIGN-BROWSER.json",
+    "docs/DESIGN-FLOW.json",
+    "docs/DESIGN-TESTS.log",
+    "public_chat/templates/public_chat/chat.html"
+  ],
+  "backend_python_changed": false
+}

@@ -1,0 +1,183 @@
+{
+  "checks": [
+    {
+      "path": "/",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "path": "/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/studio/",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "path": "/studio/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/studio/",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/studio/?tab=requests",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "path": "/studio/?tab=requests",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/studio/?tab=requests",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/studio/?tab=services",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "path": "/studio/?tab=services",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/studio/?tab=services",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/studio/?tab=schedule",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "path": "/studio/?tab=schedule",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/studio/?tab=schedule",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/brain/",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "path": "/brain/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/brain/",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/ai/",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "path": "/ai/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/ai/",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/leads/",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "path": "/leads/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/leads/",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/radar/",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "path": "/radar/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/radar/",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/connect/",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "path": "/connect/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/connect/",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/launch/",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "path": "/launch/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/launch/",
+      "width": 768,
+      "overflow": false
+    },
+    {
+      "path": "/chat/tagam-design/",
+      "width": 390,
+      "overflow": false
+    },
+    {
+      "path": "/accounts/login/",
+      "width": 390,
+      "overflow": false
+    }
+  ],
+  "menu": true,
+  "public_catalog": true,
+  "reload_memory": true,
+  "js_errors": []
+}

@@ -9,3 +9,20 @@ __pycache__/
 *.py[cod]
 staticfiles/
 media/
+
+# Accidental nested project copy
+/business_brain/assistant_ai/
+/business_brain/business_brain/
+/business_brain/business_center/
+/business_brain/config/
+/business_brain/core/
+/business_brain/docs/
+/business_brain/public_chat/
+/business_brain/scripts/
+/business_brain/manage.py
+/business_brain/requirements.txt
+/business_brain/.env.example
+/business_brain/INSTALL.txt
+/business_brain/NEXORA-AUDIT.md
+/business_brain/README*.md
+/business_brain/стиль пример сайтов/

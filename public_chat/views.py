@@ -22,12 +22,14 @@ def session_conversation(request, business):
         request.session.create()
     field = f"public_chat_{business.pk}"
     conversation_id = request.session.get(field)
+    # Never persist the raw Django session identifier in customer-facing data.
+    safe_customer = f"Public:{private_key(request.session.session_key)}"
     conversation = None
     if conversation_id:
         try:
             conversation = Conversation.objects.filter(
                 pk=conversation_id, business=business, channel="web",
-                customer_name=f"Public:{request.session.session_key}",
+                customer_name__in=[safe_customer, f"Public:{request.session.session_key}"],
             ).first()
         except (ValueError, TypeError, ValidationError):
             pass
@@ -70,7 +72,7 @@ def chat_send(request, slug):
         if conversation is None:
             conversation, _ = Conversation.objects.get_or_create(
                 business=business, public_session_key=private_key(request.session.session_key),
-                defaults={"channel": "web", "customer_name": f"Public:{request.session.session_key}"},
+                defaults={"channel": "web", "customer_name": f"Public:{private_key(request.session.session_key)}"},
             )
             request.session[field] = str(conversation.pk)
         answer = process_turn(conversation, question, turn_id, respond)
